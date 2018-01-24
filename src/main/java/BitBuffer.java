@@ -1,5 +1,6 @@
 package main.java;
 
+import java.io.Serializable;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.util.BitSet;
@@ -12,7 +13,13 @@ import java.util.BitSet;
  * @author Jacob G.
  * @since January 4, 2018
  */
-public final class BitBuffer {
+public final class BitBuffer implements Serializable {
+
+    private static final int MAX_SHORT_BITS = log2(Short.SIZE) - 1;
+
+    private static final int MAX_INTEGER_BITS = log2(Integer.SIZE) - 1;
+
+    private static final int MAX_LONG_BITS = log2(Long.SIZE) - 1;
 
     /**
      * Essentially this {@link BitBuffer}'s reader
@@ -55,7 +62,7 @@ public final class BitBuffer {
      */
     public BitBuffer(ByteBuffer buffer) {
         bits = BitSet.valueOf(buffer);
-        limit = buffer.limit();
+        limit = buffer.limit(); // TODO: Verify that this is correct.
     }
 
     /**
@@ -138,41 +145,7 @@ public final class BitBuffer {
      *      convenience of method-chaining.
      */
     public BitBuffer putInt(int i, boolean compressed) {
-        if (!compressed) {
-            for (int index = 0; index < Integer.SIZE; index++) {
-                bits.set(limit++, (i & (1 << index)) != 0);
-            }
-
-            return this;
-        }
-
-        int numBits = Integer.SIZE - Integer.numberOfLeadingZeros(i);
-
-        if (numBits >= 28) {
-            limit++;
-
-            for (int index = 0; index < Integer.SIZE; index++) {
-                bits.set(limit++, (i & (1 << index)) != 0);
-            }
-        } else {
-            bits.set(limit++);
-
-            int halfLength = (int) Math.ceil((numBits - 1) / 2.0);
-
-            for (int index = 0; index < 4; index++) {
-                bits.set(limit++, (halfLength & (1 << index)) != 0);
-            }
-
-            for (int index = 0; index < numBits; index++) {
-                bits.set(limit++, (i & (1 << index)) != 0);
-            }
-
-            if ((numBits & 1) == 0) {
-                limit++;
-            }
-        }
-
-        return this;
+        return putBits(compressed, i, Integer.SIZE, MAX_INTEGER_BITS);
     }
 
     /**
@@ -190,41 +163,7 @@ public final class BitBuffer {
      *      convenience of method-chaining.
      */
     public BitBuffer putLong(long l, boolean compressed) {
-        if (!compressed) {
-            for (int i = 0; i < Long.SIZE; i++) {
-                bits.set(limit++, (l & (1L << i)) != 0);
-            }
-
-            return this;
-        }
-
-        int numBits = Long.SIZE - Long.numberOfLeadingZeros(l);
-
-        if (numBits >= 59) {
-            limit++;
-
-            for (int i = 0; i < Long.SIZE; i++) {
-                bits.set(limit++, (l & (1L << i)) != 0);
-            }
-        } else {
-            bits.set(limit++);
-
-            int halfLength = (int) Math.ceil((numBits - 1) / 2.0);
-
-            for (int i = 0; i < 5; i++) {
-                bits.set(limit++, (halfLength & (1 << i)) != 0);
-            }
-
-            for (int i = 0; i < numBits; i++) {
-                bits.set(limit++, (l & (1L << i)) != 0);
-            }
-
-            if ((numBits & 1) == 0) {
-                limit++;
-            }
-        }
-
-        return this;
+        return putBits(compressed, l, Long.SIZE, MAX_LONG_BITS);
     }
 
     /**
@@ -242,39 +181,37 @@ public final class BitBuffer {
      *      convenience of method-chaining.
      */
     public BitBuffer putShort(int s, boolean compressed) {
+        return putBits(compressed, s, Short.SIZE, MAX_SHORT_BITS);
+    }
+
+    private BitBuffer putBits(final boolean compressed, final long value, final int size, final int maxBits) {
         if (!compressed) {
             for (int i = 0; i < Short.SIZE; i++) {
-                bits.set(limit++, (s & (1 << i)) != 0);
+                bits.set(limit++, (value & (1L << i)) != 0);
             }
 
             return this;
         }
 
-        int numBits = Short.SIZE - 1;
+        int numBits = Long.SIZE - Long.numberOfLeadingZeros(value);
 
-        for (; numBits > 0; numBits--) {
-            if ((s & (1 << (numBits - 1))) != 0) {
-                break;
-            }
-        }
-
-        if (numBits >= 13) {
+        if (numBits >= size) {
             limit++;
 
-            for (int i = 0; i < Short.SIZE; i++) {
-                bits.set(limit++, (s & (1 << i)) != 0);
+            for (int i = 0; i < size; i++) {
+                bits.set(limit++, (value & (1L << i)) != 0);
             }
         } else {
             bits.set(limit++);
 
             int halfLength = (int) Math.ceil((numBits - 1) / 2.0);
 
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < maxBits; i++) {
                 bits.set(limit++, (halfLength & (1 << i)) != 0);
             }
 
             for (int i = 0; i < numBits; i++) {
-                bits.set(limit++, (s & (1 << i)) != 0);
+                bits.set(limit++, (value & (1L << i)) != 0);
             }
 
             if ((numBits & 1) == 0) {
@@ -283,6 +220,44 @@ public final class BitBuffer {
         }
 
         return this;
+    }
+
+    private Number readBits(final boolean compressed, final int size, final int maxBits) {
+        if (!compressed) {
+            if (limit - position < size) {
+                throw new BufferUnderflowException();
+            }
+
+            long l = 0;
+
+            for (int index = 0; index < size; index++) {
+                if (bits.get(position++)) {
+                    l |= (1L << index);
+                }
+            }
+
+            return l;
+        }
+
+        long l = 0;
+
+        if (bits.get(position++)) {
+            int numBits = readBits(maxBits).intValue();
+
+            for (int index = 0; index < numBits * 2 + 1; index++) {
+                if (bits.get(position++)) {
+                    l |= (1L << index);
+                }
+            }
+        } else {
+            for (int index = 0; index < size; index++) {
+                if (bits.get(position++)) {
+                    l |= (1L << index);
+                }
+            }
+        }
+
+        return l;
     }
 
     public Number readBits(int numBits) {
@@ -320,7 +295,7 @@ public final class BitBuffer {
             return bits.get(position++);
         } finally {
             if (!compressed) {
-                position += 7;
+                position += (Byte.SIZE - 1);
             }
         }
     }
@@ -378,41 +353,7 @@ public final class BitBuffer {
      *      An {@code int}.
      */
     public int getInt(boolean compressed) {
-        if (!compressed) {
-            if (limit - position < Integer.SIZE) {
-                throw new BufferUnderflowException();
-            }
-
-            int i = 0;
-
-            for (int index = 0; index < Integer.SIZE; index++) {
-                if (bits.get(position++)) {
-                    i |= (1 << index);
-                }
-            }
-
-            return i;
-        }
-
-        int i = 0;
-
-        if (bits.get(position++)) {
-            int numBits = readBits(4).intValue();
-
-            for (int index = 0; index < numBits * 2 + 1; index++) {
-                if (bits.get(position++)) {
-                    i |= (1 << index);
-                }
-            }
-        } else {
-            for (int index = 0; index < Integer.SIZE; index++) {
-                if (bits.get(position++)) {
-                    i |= (1 << index);
-                }
-            }
-        }
-
-        return i;
+        return readBits(compressed, Integer.SIZE, MAX_INTEGER_BITS).intValue();
     }
 
     /**
@@ -429,41 +370,7 @@ public final class BitBuffer {
      *      A {@code long}.
      */
     public long getLong(boolean compressed) {
-        if (!compressed) {
-            if (limit - position < Long.SIZE) {
-                throw new BufferUnderflowException();
-            }
-
-            long l = 0;
-
-            for (int index = 0; index < Long.SIZE; index++) {
-                if (bits.get(position++)) {
-                    l |= (1L << index);
-                }
-            }
-
-            return l;
-        }
-
-        long l = 0;
-
-        if (bits.get(position++)) {
-            int numBits = readBits(5).intValue();
-
-            for (int index = 0; index < numBits * 2 + 1; index++) {
-                if (bits.get(position++)) {
-                    l |= (1L << index);
-                }
-            }
-        } else {
-            for (int index = 0; index < Long.SIZE; index++) {
-                if (bits.get(position++)) {
-                    l |= (1L << index);
-                }
-            }
-        }
-
-        return l;
+        return readBits(compressed, Long.SIZE, MAX_LONG_BITS).longValue();
     }
 
     /**
@@ -480,41 +387,19 @@ public final class BitBuffer {
      *      A {@code short}.
      */
     public short getShort(boolean compressed) {
-        if (!compressed) {
-            if (limit - position < Short.SIZE) {
-                throw new BufferUnderflowException();
-            }
+        return readBits(compressed, Short.SIZE, MAX_SHORT_BITS).shortValue();
+    }
 
-            short s = 0;
-
-            for (int i = 0; i < Short.SIZE; i++) {
-                if (bits.get(position++)) {
-                    s |= (1 << i);
-                }
-            }
-
-            return s;
-        }
-
-        short s = 0;
-
-        if (bits.get(position++)) {
-            int numBits = readBits(3).intValue();
-
-            for (int i = 0; i < numBits * 2 + 1; i++) {
-                if (bits.get(position++)) {
-                    s |= (1 << i);
-                }
-            }
-        } else {
-            for (int i = 0; i < Short.SIZE; i++) {
-                if (bits.get(position++)) {
-                    s |= (1 << i);
-                }
-            }
-        }
-
-        return s;
+    /**
+     * Returns the base 2 logarithm of a {@code int} value.
+     *
+     * @param a
+     *      A value.
+     * @return
+     *      The base 2 logarithm of {@code a}.
+     */
+    private static int log2(int a) {
+        return 31 - Integer.numberOfLeadingZeros(a);
     }
 
 }
