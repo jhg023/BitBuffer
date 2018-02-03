@@ -8,18 +8,31 @@ import java.util.BitSet;
 /**
  * A datatype similar to {@link ByteBuffer}, but
  * reads/writes bits rather than {@code byte}s to
- * reduce bandwidth and increase throughput.
+ * reduce bandwidth, increase throughput, and
+ * allow for optional compression.
  *
  * @author Jacob G.
  * @since January 4, 2018
  */
 public final class BitBuffer implements Serializable {
 
-    private static final int MAX_SHORT_BITS = log2(Short.SIZE) - 1;
+    /**
+     * The maximum number of bits required to encode the bit-length
+     * of a {@code short}.
+     */
+    private static final transient int MAX_SHORT_BITS = log2(Short.SIZE) - 1;
 
-    private static final int MAX_INTEGER_BITS = log2(Integer.SIZE) - 1;
+    /**
+     * The maximum number of bits required to encode the bit-length
+     * of an {@code int}.
+     */
+    private static final transient int MAX_INTEGER_BITS = log2(Integer.SIZE) - 1;
 
-    private static final int MAX_LONG_BITS = log2(Long.SIZE) - 1;
+    /**
+     * The maximum number of bits required to encode the bit-length
+     * of a {@code long}.
+     */
+    private static final transient int MAX_LONG_BITS = log2(Long.SIZE) - 1;
 
     /**
      * Essentially this {@link BitBuffer}'s reader
@@ -58,11 +71,11 @@ public final class BitBuffer implements Serializable {
      * an existing {@link ByteBuffer}.
      *
      * @param buffer
-     *      A {@link ByteBuffer}.
+     *      A {@link ByteBuffer} with order {@link java.nio.ByteOrder#LITTLE_ENDIAN}.
      */
     public BitBuffer(ByteBuffer buffer) {
         bits = BitSet.valueOf(buffer);
-        limit = buffer.limit(); // TODO: Verify that this is correct.
+        limit = buffer.limit() * Byte.SIZE;
     }
 
     /**
@@ -126,8 +139,12 @@ public final class BitBuffer implements Serializable {
      *      This {@link BitBuffer} to allow for the
      *      convenience of method-chaining.
      */
-    public BitBuffer putDouble(double d, boolean compressed) {
-        return putLong(Double.doubleToLongBits(d), compressed);
+    public BitBuffer putDouble(double d, boolean compressed, int factor) {
+        if (factor < 0) {
+            throw new IllegalArgumentException("factor must be greater than or equal to 0!");
+        }
+
+        return putLong((long) (d * Math.pow(10, factor)), compressed);
     }
 
     /**
@@ -186,7 +203,7 @@ public final class BitBuffer implements Serializable {
 
     private BitBuffer putBits(final boolean compressed, final long value, final int size, final int maxBits) {
         if (!compressed) {
-            for (int i = 0; i < Short.SIZE; i++) {
+            for (int i = 0; i < size; i++) {
                 bits.set(limit++, (value & (1L << i)) != 0);
             }
 
@@ -222,6 +239,20 @@ public final class BitBuffer implements Serializable {
         return this;
     }
 
+    /**
+     * A helper method to read {@code size} bits, either compressed
+     * or uncompressed, from the backing {@link BitSet}.
+     *
+     * @param compressed
+     *      Whether or not to read compressed bits.
+     * @param size
+     *      The amount of bits to read that holds the,
+     *      possibly compressed, data.
+     * @param maxBits
+     *      The amount of bits to read containing {@code size}.
+     * @return
+     *      A {@link Number}.
+     */
     private Number readBits(final boolean compressed, final int size, final int maxBits) {
         if (!compressed) {
             if (limit - position < size) {
@@ -335,8 +366,12 @@ public final class BitBuffer implements Serializable {
      * @return
      *      A {@code double}.
      */
-    public double getDouble(boolean compressed) {
-        return Double.longBitsToDouble(getLong(compressed));
+    public double getDouble(boolean compressed, int factor) {
+        if (factor < 0) {
+            throw new IllegalArgumentException("factor must be greater than or equal to 0!");
+        }
+
+        return getLong(compressed) / Math.pow(10, factor);
     }
 
     /**
