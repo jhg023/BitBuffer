@@ -1,27 +1,42 @@
 package main.java;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
+import java.text.NumberFormat;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class Main {
 
     public static void main(String[] args) {
-        BitBuffer test = new BitBuffer();
+        int n = 60_000_000;
 
-        final int factor = 8;
+        int[] numbers = new int[n];
 
-        test.putDouble(4.12345678, true, factor);
+        BitBuffer buffer = new BitBuffer(n * 4 * 8);
 
-        System.out.println(test.getDouble(true, factor));
+        for (int i = 0; i < n; i++) {
+            int num = ThreadLocalRandom.current().nextInt(Integer.MAX_VALUE);
+
+            numbers[i] = num;
+
+            //System.out.println((i + 1) + ". " + num);
+
+            buffer.putInt(num, true);
+        }
+
+        byte[] array = buffer.toByteArray();
+
+        System.out.println("Compressed: " + NumberFormat.getInstance().format(array.length) + " Bytes");
+        System.out.println("Uncompressed: " + NumberFormat.getInstance().format(n * 4) + " Bytes");
+        System.out.println("Compressed " + String.format("%.8f", 100 - (array.length / (n * 4D) * 100)) + "% (Higher is better)");
+
+        for (int i = 0; i < n; i++) {
+            int num = buffer.getInt(true);
+
+            //System.out.println((i + 1) + ". " + num);
+
+            if (numbers[i] != num) {
+                //throw new RuntimeException(numbers[i] + " " + num);
+            }
+        }
     }
 
 }

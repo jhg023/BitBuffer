@@ -63,7 +63,11 @@ public final class BitBuffer implements Serializable {
      * Instantiates a new {@link BitBuffer}.
      */
     public BitBuffer() {
-        bits = new BitSet();
+        this(16);
+    }
+
+    public BitBuffer(int capacity) {
+        bits = new BitSet(capacity);
     }
 
     /**
@@ -201,7 +205,7 @@ public final class BitBuffer implements Serializable {
         return putBits(compressed, s, Short.SIZE, MAX_SHORT_BITS);
     }
 
-    private BitBuffer putBits(final boolean compressed, final long value, final int size, final int maxBits) {
+    private BitBuffer putBits(boolean compressed, long value, int size, int maxBits) {
         if (!compressed) {
             for (int i = 0; i < size; i++) {
                 bits.set(limit++, (value & (1L << i)) != 0);
@@ -212,10 +216,10 @@ public final class BitBuffer implements Serializable {
 
         int numBits = Long.SIZE - Long.numberOfLeadingZeros(value);
 
-        if (numBits >= size) {
+        if (numBits >= size - maxBits) {
             limit++;
 
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < size - 1; i++) {
                 bits.set(limit++, (value & (1L << i)) != 0);
             }
         } else {
@@ -281,7 +285,7 @@ public final class BitBuffer implements Serializable {
                 }
             }
         } else {
-            for (int index = 0; index < size; index++) {
+            for (int index = 0; index < size - 1; index++) {
                 if (bits.get(position++)) {
                     l |= (1L << index);
                 }
@@ -435,6 +439,14 @@ public final class BitBuffer implements Serializable {
      */
     private static int log2(int a) {
         return 31 - Integer.numberOfLeadingZeros(a);
+    }
+
+    private static int mod(int i) {
+        if (Math.signum(i) == -1F) {
+            return Integer.MAX_VALUE + i;
+        }
+
+        return i;
     }
 
 }
