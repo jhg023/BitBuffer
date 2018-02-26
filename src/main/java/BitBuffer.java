@@ -1,155 +1,37 @@
 package main.java;
 
-import java.io.Serializable;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.util.BitSet;
 
 /**
- * A datatype similar to {@link ByteBuffer}, but
+ * A data-type similar to {@link ByteBuffer}, but
  * reads/writes bits rather than {@code byte}s to
  * reduce bandwidth, increase throughput, and
  * allow for optional compression.
  *
  * @author Jacob G.
- * @since January 4, 2018
+ * @since February 24, 2018
  */
-public final class BitBuffer implements Serializable {
+public interface BitBuffer {
 
     /**
      * The maximum number of bits required to encode the bit-length
      * of a {@code short}.
      */
-    private static final transient int MAX_SHORT_BITS = log2(Short.SIZE) - 1;
+    int MAX_SHORT_BITS = log2(Short.SIZE) - 1;
 
     /**
      * The maximum number of bits required to encode the bit-length
      * of an {@code int}.
      */
-    private static final transient int MAX_INTEGER_BITS = log2(Integer.SIZE) - 1;
+    int MAX_INTEGER_BITS = log2(Integer.SIZE) - 1;
 
     /**
      * The maximum number of bits required to encode the bit-length
      * of a {@code long}.
      */
-    private static final transient int MAX_LONG_BITS = log2(Long.SIZE) - 1;
-
-    /**
-     * Essentially this {@link BitBuffer}'s reader
-     * index.  Whenever {@code n} bits are read from this
-     * {@link BitBuffer}, this value is incremented by
-     * {@code n}.
-     */
-    private int position;
-
-    /**
-     * Essentially this {@link BitBuffer}'s writer
-     * index.  Whenever {@code n} bits are written to this
-     * {@link BitBuffer}, this value is incremented by
-     * {@code n}.
-     */
-    private int limit;
-
-    /**
-     * The datatype that will hold the bits as they
-     * are written.  At any time, this {@link BitSet}
-     * can be converted to a {@code byte[]} with
-     * {@link BitSet#toByteArray()} for use in a
-     * network.
-     */
-    private final BitSet bits;
-
-    /**
-     * Instantiates a new {@link BitBuffer}.
-     */
-    public BitBuffer() {
-        this(16);
-    }
-
-    public BitBuffer(int capacity) {
-        bits = new BitSet(capacity);
-    }
-
-    /**
-     * Instantiates a new {@link BitBuffer} from
-     * an existing {@link ByteBuffer}.
-     *
-     * @param buffer
-     *      A {@link ByteBuffer} with order {@link java.nio.ByteOrder#LITTLE_ENDIAN}.
-     */
-    public BitBuffer(ByteBuffer buffer) {
-        bits = BitSet.valueOf(buffer);
-        limit = buffer.limit() * Byte.SIZE;
-    }
-
-    /**
-     * Appends a {@code boolean} to this {@link BitBuffer}.
-     *
-     * @param b
-     *      The {@code boolean} to append.
-     * @param compressed
-     *      Whether or not to compress this {@code boolean}.
-     *      A single bit would be written to the backing
-     *      {@link BitSet} rather than an entire {@code byte}.
-     * @return
-     *      This {@link BitBuffer} to allow for the
-     *      convenience of method-chaining.
-     */
-    public BitBuffer putBoolean(boolean b, boolean compressed) {
-        bits.set(limit++, b);
-
-        if (!compressed) {
-            limit += 7;
-        }
-
-        return this;
-    }
-
-    /**
-     * Appends a {@code byte} to this {@link BitBuffer}.
-     * <p>
-     * No option to compress the {@code byte} is provided,
-     * as attempting to compress it will most likely lead
-     * to more than 8 bits being written to the backing
-     * {@link BitSet}.
-     *
-     * @param b
-     *      The {@code byte} to append.
-     * @return
-     *      This {@link BitBuffer} to allow for the
-     *      convenience of method-chaining.
-     */
-    public BitBuffer putByte(int b) {
-        b = (byte) b;
-
-        for (int index = 0; index < Byte.SIZE; index++) {
-            bits.set(limit++, (b & (1 << index)) != 0);
-        }
-
-        return this;
-    }
-
-    /**
-     * Appends a {@code double} to this {@link BitBuffer}.
-     *
-     * @param d
-     *      The {@code double} to append.
-     * @param compressed
-     *      Whether or not to compress this {@code double}.
-     *      A currently unnamed algorithm will write the
-     *      minimum amount of bits to the backing
-     *      {@link BitSet} rather than an entire {@code double}.
-     * @return
-     *      This {@link BitBuffer} to allow for the
-     *      convenience of method-chaining.
-     */
-    public BitBuffer putDouble(double d, boolean compressed, int factor) {
-        if (factor < 0) {
-            throw new IllegalArgumentException("factor must be greater than or equal to 0!");
-        }
-
-        return putLong((long) (d * Math.pow(10, factor)), compressed);
-    }
+    int MAX_LONG_BITS = log2(Long.SIZE) - 1;
 
     /**
      * Appends an {@code int} to this {@link BitBuffer}.
@@ -165,8 +47,8 @@ public final class BitBuffer implements Serializable {
      *      This {@link BitBuffer} to allow for the
      *      convenience of method-chaining.
      */
-    public BitBuffer putInt(int i, boolean compressed) {
-        return putBits(compressed, i, Integer.SIZE, MAX_INTEGER_BITS);
+    default BitBuffer putInt(int i, boolean compressed) {
+        return putBits(i, compressed, Integer.SIZE, MAX_INTEGER_BITS);
     }
 
     /**
@@ -183,8 +65,8 @@ public final class BitBuffer implements Serializable {
      *      This {@link BitBuffer} to allow for the
      *      convenience of method-chaining.
      */
-    public BitBuffer putLong(long l, boolean compressed) {
-        return putBits(compressed, l, Long.SIZE, MAX_LONG_BITS);
+    default BitBuffer putLong(long l, boolean compressed) {
+        return putBits(l, compressed, Long.SIZE, MAX_LONG_BITS);
     }
 
     /**
@@ -201,182 +83,15 @@ public final class BitBuffer implements Serializable {
      *      This {@link BitBuffer} to allow for the
      *      convenience of method-chaining.
      */
-    public BitBuffer putShort(int s, boolean compressed) {
-        return putBits(compressed, s, Short.SIZE, MAX_SHORT_BITS);
+    default BitBuffer putShort(int s, boolean compressed) {
+        return putBits(s, compressed, Short.SIZE, MAX_SHORT_BITS);
     }
 
-    private BitBuffer putBits(boolean compressed, long value, int size, int maxBits) {
-        if (!compressed) {
-            for (int i = 0; i < size; i++) {
-                bits.set(limit++, (value & (1L << i)) != 0);
-            }
+    BitBuffer putBits(long value, boolean compressed, int size, int maxBits);
 
-            return this;
-        }
+    Number readBits(boolean compressed, int size, int maxBits);
 
-        int numBits = Long.SIZE - Long.numberOfLeadingZeros(value);
-
-        if (numBits >= size - maxBits) {
-            limit++;
-
-            for (int i = 0; i < size - 1; i++) {
-                bits.set(limit++, (value & (1L << i)) != 0);
-            }
-        } else {
-            bits.set(limit++);
-
-            int halfLength = (int) Math.ceil((numBits - 1) / 2.0);
-
-            for (int i = 0; i < maxBits; i++) {
-                bits.set(limit++, (halfLength & (1 << i)) != 0);
-            }
-
-            for (int i = 0; i < numBits; i++) {
-                bits.set(limit++, (value & (1L << i)) != 0);
-            }
-
-            if ((numBits & 1) == 0) {
-                limit++;
-            }
-        }
-
-        return this;
-    }
-
-    /**
-     * A helper method to read {@code size} bits, either compressed
-     * or uncompressed, from the backing {@link BitSet}.
-     *
-     * @param compressed
-     *      Whether or not to read compressed bits.
-     * @param size
-     *      The amount of bits to read that holds the,
-     *      possibly compressed, data.
-     * @param maxBits
-     *      The amount of bits to read containing {@code size}.
-     * @return
-     *      A {@link Number}.
-     */
-    private Number readBits(final boolean compressed, final int size, final int maxBits) {
-        if (!compressed) {
-            if (limit - position < size) {
-                throw new BufferUnderflowException();
-            }
-
-            long l = 0;
-
-            for (int index = 0; index < size; index++) {
-                if (bits.get(position++)) {
-                    l |= (1L << index);
-                }
-            }
-
-            return l;
-        }
-
-        long l = 0;
-
-        if (bits.get(position++)) {
-            int numBits = readBits(maxBits).intValue();
-
-            for (int index = 0; index < numBits * 2 + 1; index++) {
-                if (bits.get(position++)) {
-                    l |= (1L << index);
-                }
-            }
-        } else {
-            for (int index = 0; index < size - 1; index++) {
-                if (bits.get(position++)) {
-                    l |= (1L << index);
-                }
-            }
-        }
-
-        return l;
-    }
-
-    public Number readBits(int numBits) {
-        if (limit - position < numBits) {
-            throw new BufferUnderflowException();
-        }
-
-        long l = 0;
-
-        for (int i = 0; i < numBits; i++) {
-            if (bits.get(position++)) {
-                l |= (1 << i);
-            }
-        }
-
-        return l;
-    }
-
-    public byte[] toByteArray() {
-        return bits.toByteArray();
-    }
-
-    /**
-     * Gets a {@code boolean} from this {@link BitBuffer}.
-     *
-     * @return
-     *      A {@code boolean}.
-     */
-    public boolean getBoolean(boolean compressed) {
-        if (position >= limit) {
-            throw new BufferUnderflowException();
-        }
-
-        try {
-            return bits.get(position++);
-        } finally {
-            if (!compressed) {
-                position += (Byte.SIZE - 1);
-            }
-        }
-    }
-
-    /**
-     * Gets a {@code byte} from this {@link BitBuffer}.
-     *
-     * @return
-     *      A {@code byte}.
-     */
-    public byte getByte() {
-        if (limit - position < Byte.SIZE) {
-            throw new BufferUnderflowException();
-        }
-
-        byte b = 0;
-
-        for (int i = 0; i < Byte.SIZE; i++) {
-            if (bits.get(position++)) {
-                b |= (1 << i);
-            }
-        }
-
-        return b;
-    }
-
-    /**
-     * Gets a {@code double} from this {@link BitBuffer}.
-     *
-     * @param compressed
-     *      Whether or not the {@code double} being read
-     *      was compressed when it was written. Note that
-     *      no {@link BufferUnderflowException} checks
-     *      are made when attempting to read compressed
-     *      data, so calling this method at the wrong time
-     *      may return an incorrect value.
-     * @return
-     *      A {@code double}.
-     */
-    public double getDouble(boolean compressed, int factor) {
-        if (factor < 0) {
-            throw new IllegalArgumentException("factor must be greater than or equal to 0!");
-        }
-
-        return getLong(compressed) / Math.pow(10, factor);
-    }
+    byte[] toByteArray();
 
     /**
      * Gets an {@code int} from this {@link BitBuffer}.
@@ -391,7 +106,7 @@ public final class BitBuffer implements Serializable {
      * @return
      *      An {@code int}.
      */
-    public int getInt(boolean compressed) {
+    default int getInt(boolean compressed) {
         return readBits(compressed, Integer.SIZE, MAX_INTEGER_BITS).intValue();
     }
 
@@ -408,7 +123,7 @@ public final class BitBuffer implements Serializable {
      * @return
      *      A {@code long}.
      */
-    public long getLong(boolean compressed) {
+    default long getLong(boolean compressed) {
         return readBits(compressed, Long.SIZE, MAX_LONG_BITS).longValue();
     }
 
@@ -425,28 +140,20 @@ public final class BitBuffer implements Serializable {
      * @return
      *      A {@code short}.
      */
-    public short getShort(boolean compressed) {
+    default short getShort(boolean compressed) {
         return readBits(compressed, Short.SIZE, MAX_SHORT_BITS).shortValue();
     }
 
     /**
-     * Returns the base 2 logarithm of a {@code int} value.
+     * Returns the base 2 logarithm of a {@code long} value.
      *
-     * @param a
+     * @param l
      *      A value.
      * @return
-     *      The base 2 logarithm of {@code a}.
+     *      The base 2 logarithm of {@code l}.
      */
-    private static int log2(int a) {
-        return 31 - Integer.numberOfLeadingZeros(a);
-    }
-
-    private static int mod(int i) {
-        if (Math.signum(i) == -1F) {
-            return Integer.MAX_VALUE + i;
-        }
-
-        return i;
+    private static int log2(long l) {
+        return Long.SIZE - 1 - Long.numberOfLeadingZeros(l);
     }
 
 }

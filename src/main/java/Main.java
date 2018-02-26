@@ -1,6 +1,7 @@
 package main.java;
 
 import java.text.NumberFormat;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class Main {
@@ -10,10 +11,10 @@ public final class Main {
 
         int[] numbers = new int[n];
 
-        BitBuffer buffer = new BitBuffer(n * 4 * 8);
+        BitBuffer buffer = new HeapBitBuffer(n * 4 * 8);
 
         for (int i = 0; i < n; i++) {
-            int num = ThreadLocalRandom.current().nextInt(Integer.MAX_VALUE);
+            int num = ThreadLocalRandom.current().nextInt(Integer.MIN_VALUE, Integer.MAX_VALUE);
 
             numbers[i] = num;
 
@@ -34,7 +35,7 @@ public final class Main {
             //System.out.println((i + 1) + ". " + num);
 
             if (numbers[i] != num) {
-                //throw new RuntimeException(numbers[i] + " " + num);
+                throw new RuntimeException(numbers[i] + " " + num);
             }
         }
     }
