@@ -1,6 +1,7 @@
 package bitbuffer.impl;
 
 import bitbuffer.BitBuffer;
+import bitbuffer.Sign;
 
 import java.text.NumberFormat;
 import java.util.concurrent.ThreadLocalRandom;
@@ -15,13 +16,13 @@ public final class Main {
         BitBuffer buffer = new HeapBitBuffer(n * 4 * 8);
 
         for (int i = 0; i < n; i++) {
-            int num = ThreadLocalRandom.current().nextInt(Integer.MIN_VALUE, Integer.MAX_VALUE);
+            int num = ThreadLocalRandom.current().nextInt(Integer.MAX_VALUE);
 
             numbers[i] = num;
 
             //System.out.println((i + 1) + ". " + num);
 
-            buffer.putInt(num, true);
+            buffer.putCompressedInt(num, Sign.POSITIVE);
         }
 
         byte[] array = buffer.toByteArray();
@@ -31,7 +32,7 @@ public final class Main {
         System.out.println("Compressed " + String.format("%.8f", 100 - (array.length / (n * 4D) * 100)) + "% (Higher is better)");
 
         for (int i = 0; i < n; i++) {
-            int num = buffer.getInt(true);
+            int num = buffer.getCompressedInt(Sign.POSITIVE);
 
             //System.out.println((i + 1) + ". " + num);
 

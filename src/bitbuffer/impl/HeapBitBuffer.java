@@ -1,6 +1,7 @@
 package bitbuffer.impl;
 
 import bitbuffer.BitBuffer;
+import bitbuffer.Sign;
 
 import java.io.Serializable;
 import java.nio.BufferUnderflowException;
@@ -14,7 +15,7 @@ import java.util.BitSet;
  * @author Jacob G.
  * @since January 4, 2018
  */
-public final class HeapBitBuffer implements BitBuffer, Serializable {
+public class HeapBitBuffer implements BitBuffer, Serializable {
 
     /**
      * Essentially this {@link BitBuffer}'s reader
@@ -22,7 +23,7 @@ public final class HeapBitBuffer implements BitBuffer, Serializable {
      * {@link BitBuffer}, this value is incremented by
      * {@code n}.
      */
-    private int position;
+    protected int position;
 
     /**
      * Essentially this {@link BitBuffer}'s writer
@@ -30,7 +31,7 @@ public final class HeapBitBuffer implements BitBuffer, Serializable {
      * {@link BitBuffer}, this value is incremented by
      * {@code n}.
      */
-    private int limit;
+    protected int limit;
 
     /**
      * The datatype that will hold the bits as they
@@ -39,7 +40,7 @@ public final class HeapBitBuffer implements BitBuffer, Serializable {
      * {@link BitSet#toByteArray()} for use in a
      * network.
      */
-    private final BitSet bits;
+    protected final BitSet bits;
 
     /**
      * Instantiates a new {@link BitBuffer} with a
@@ -96,7 +97,7 @@ public final class HeapBitBuffer implements BitBuffer, Serializable {
     }
 
     @Override
-    public BitBuffer putBits(long value, boolean compressed, int size, int maxBits) {
+    public BitBuffer putBits(long value, boolean compressed, int size, Sign sign) {
         if (!compressed) {
             for (int i = 0; i < size; i++) {
                 bits.set(limit++, (value & (1L << i)) != 0);
@@ -105,18 +106,21 @@ public final class HeapBitBuffer implements BitBuffer, Serializable {
             return this;
         }
 
-        boolean negated = value < 0;
+        boolean shouldNegate = value < 0;
 
-        if (negated) {
+        // If the value is negative, negate it.
+        if (shouldNegate) {
             value = -value;
         }
 
         int numBits = Long.SIZE - Long.numberOfLeadingZeros(value);
 
-        if (numBits >= size - maxBits) {
+        if (numBits >= size - BitBuffer.log2(size) - 1) {
             limit++;
 
-            bits.set(limit++, negated);
+            if (sign == Sign.EITHER) {
+                bits.set(limit++, shouldNegate);
+            }
 
             for (int i = 0; i < size - 1; i++) {
                 bits.set(limit++, (value & (1L << i)) != 0);
@@ -124,11 +128,13 @@ public final class HeapBitBuffer implements BitBuffer, Serializable {
         } else {
             bits.set(limit++);
 
-            bits.set(limit++, negated);
+            if (sign == Sign.EITHER) {
+                bits.set(limit++, shouldNegate);
+            }
 
             int halfLength = (int) Math.ceil((numBits - 1) / 2.0);
 
-            for (int i = 0; i < maxBits; i++) {
+            for (int i = 0; i < BitBuffer.log2(size) - 1; i++) {
                 bits.set(limit++, (halfLength & (1 << i)) != 0);
             }
 
@@ -153,12 +159,13 @@ public final class HeapBitBuffer implements BitBuffer, Serializable {
      * @param size
      *      The amount of bits to read that holds the,
      *      possibly compressed, data.
-     * @param maxBits
-     *      The amount of bits to read containing {@code size}.
+     * @param sign
+     *      TODO: Add documentation.
      * @return
      *      A {@link Number}.
      */
-    public Number readBits(boolean compressed, int size, int maxBits) {
+    @Override
+    public Number readBits(boolean compressed, int size, Sign sign) {
         if (!compressed) {
             if (limit - position < size) {
                 throw new BufferUnderflowException();
@@ -180,9 +187,9 @@ public final class HeapBitBuffer implements BitBuffer, Serializable {
         boolean shouldNegate;
 
         if (bits.get(position++)) {
-            shouldNegate = bits.get(position++);
+            shouldNegate = sign == Sign.EITHER && bits.get(position++);
 
-            int numBits = readBits(maxBits).intValue();
+            int numBits = readBits(BitBuffer.log2(size) - 1).intValue();
 
             for (int index = 0; index < numBits * 2 + 1; index++) {
                 if (bits.get(position++)) {
@@ -190,7 +197,7 @@ public final class HeapBitBuffer implements BitBuffer, Serializable {
                 }
             }
         } else {
-            shouldNegate = bits.get(position++);
+            shouldNegate = sign == Sign.EITHER && bits.get(position++);
 
             for (int index = 0; index < size - 1; index++) {
                 if (bits.get(position++)) {
@@ -199,11 +206,7 @@ public final class HeapBitBuffer implements BitBuffer, Serializable {
             }
         }
 
-        if (shouldNegate) {
-            value = -value;
-        }
-
-        return value;
+        return shouldNegate || sign == Sign.NEGATIVE ? -value : value;
     }
 
     private Number readBits(int numBits) {

@@ -1,43 +1,27 @@
 package bitbuffer.impl;
 
 import bitbuffer.BitBuffer;
+import bitbuffer.Sign;
 
 import java.nio.BufferUnderflowException;
 import java.util.BitSet;
 
-public final class BlockedBitBuffer implements BitBuffer {
-
-    /**
-     * Essentially this {@link BitBuffer}'s reader
-     * index.  Whenever {@code n} bits are read from this
-     * {@link BitBuffer}, this value is incremented by
-     * {@code n}.
-     */
-    private int position;
-
-    /**
-     * Essentially this {@link BitBuffer}'s writer
-     * index.  Whenever {@code n} bits are written to this
-     * {@link BitBuffer}, this value is incremented by
-     * {@code n}.
-     */
-    private int limit;
-
-    /**
-     * The datatype that will hold the bits as they
-     * are written.  At any time, this {@link BitSet}
-     * can be converted to a {@code byte[]} with
-     * {@link BitSet#toByteArray()} for use in a
-     * network.
-     */
-    private final BitSet bits;
+/**
+ * An implementation of {@link BitBuffer} that stores its
+ * data within a {@link BitSet} and separates its data into
+ * blocks of {@code 4} bits.
+ *
+ * @author Jacob G.
+ * @since February 25, 2018
+ */
+public class BlockedHeapBitBuffer extends HeapBitBuffer {
 
     /**
      * Instantiates a new {@link BitBuffer} with a
      * default capacity of {@code 16}.
      */
-    public BlockedBitBuffer() {
-        this(16);
+    public BlockedHeapBitBuffer() {
+        super(16);
     }
 
     /**
@@ -47,12 +31,12 @@ public final class BlockedBitBuffer implements BitBuffer {
      * @param capacity
      *      The capacity passed to the backing {@link BitSet}.
      */
-    public BlockedBitBuffer(int capacity) {
-        bits = new BitSet(capacity);
+    public BlockedHeapBitBuffer(int capacity) {
+        super(capacity);
     }
 
     @Override
-    public BitBuffer putBits(long value, boolean compressed, int size, int maxBits) {
+    public BitBuffer putBits(long value, boolean compressed, int size, Sign sign) {
         if (!compressed) {
             for (int i = 0; i < size; i++) {
                 bits.set(limit++, (value & (1L << i)) != 0);
@@ -61,18 +45,21 @@ public final class BlockedBitBuffer implements BitBuffer {
             return this;
         }
 
-        boolean negated = value < 0;
+        boolean shouldNegate = value < 0;
 
-        if (negated) {
+        // If the value is negative, negate it.
+        if (shouldNegate) {
             value = -value;
         }
 
         int numBits = Long.SIZE - Long.numberOfLeadingZeros(value);
 
-        if (numBits >= size - maxBits) {
+        if (numBits >= size - BitBuffer.log2(size) - 1) {
             limit++;
 
-            bits.set(limit++, negated);
+            if (sign == Sign.EITHER) {
+                bits.set(limit++, shouldNegate);
+            }
 
             for (int i = 0; i < size - 1; i++) {
                 bits.set(limit++, (value & (1L << i)) != 0);
@@ -86,7 +73,9 @@ public final class BlockedBitBuffer implements BitBuffer {
         int numBlocks = numBits >>> 2;
 
         // Write sign bit
-        bits.set(limit++, negated);
+        if (sign == Sign.EITHER) {
+            bits.set(limit++, shouldNegate);
+        }
 
         // Write number of 4-bit blocks.
         for (int i = 0; i < 3; i++) {
@@ -105,25 +94,21 @@ public final class BlockedBitBuffer implements BitBuffer {
     }
 
     @Override
-    public Number readBits(boolean compressed, int size, int maxBits) {
+    public Number readBits(boolean compressed, int size, Sign sign) {
         long value = 0;
 
         // If the number is too big to be compressed...
         if (!bits.get(position++)) {
-            boolean shouldNegate = bits.get(position++);
+            boolean shouldNegate = sign == Sign.EITHER && bits.get(position++);
 
-            long number = readBits(31).longValue();
+            long number = readBits(size - 1).longValue();
 
-            if (shouldNegate) {
-                number = -number;
-            }
-
-            return number;
+            return shouldNegate || sign == Sign.NEGATIVE ? -number : number;
         }
 
-        boolean shouldNegate = bits.get(position++);
+        boolean shouldNegate = sign == Sign.EITHER && bits.get(position++);
 
-        int numBlocks = readBits(3).intValue();
+        int numBlocks = readBits(BitBuffer.log2(size) - 2).intValue();
 
         for (int index = 0; index < numBlocks + 1; index++) {
             if (bits.get(position++)) {
@@ -143,11 +128,7 @@ public final class BlockedBitBuffer implements BitBuffer {
             }
         }
 
-        if (shouldNegate) {
-            value = -value;
-        }
-
-        return value;
+        return shouldNegate || sign == Sign.NEGATIVE ? -value : value;
     }
 
     @Override

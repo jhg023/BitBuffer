@@ -1,6 +1,6 @@
 package bitbuffer;
 
-public enum Parity {
+public enum Sign {
 
     POSITIVE,
     NEGATIVE,

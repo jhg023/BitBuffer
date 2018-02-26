@@ -1,8 +1,6 @@
 package bitbuffer;
 
-import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
-import java.util.BitSet;
 
 /**
  * A data-type similar to {@link ByteBuffer}, but
@@ -16,183 +14,224 @@ import java.util.BitSet;
 public interface BitBuffer {
 
     /**
-     * The maximum number of bits required to encode the bit-length
-     * of a {@code short}.
+     * Appends an uncompressed {@code byte} to this {@link BitBuffer}.
+     *
+     * @param b
+     *      The {@code byte} to append.
+     * @return
+     *      This {@link BitBuffer} to allow for the
+     *      convenience of method-chaining.
      */
-    int MAX_SHORT_BITS = log2(Short.SIZE) - 1;
+    default BitBuffer putByte(int b) {
+        return putBits(b, false, Byte.SIZE, Sign.EITHER);
+    }
 
     /**
-     * The maximum number of bits required to encode the bit-length
-     * of an {@code int}.
-     */
-    int MAX_INTEGER_BITS = log2(Integer.SIZE) - 1;
-
-    /**
-     * The maximum number of bits required to encode the bit-length
-     * of a {@code long}.
-     */
-    int MAX_LONG_BITS = log2(Long.SIZE) - 1;
-
-    /**
-     * Appends an {@code int} to this {@link BitBuffer}.
+     * Appends an uncompressed {@code int} to this {@link BitBuffer}.
      *
      * @param i
      *      The {@code int} to append.
-     * @param compressed
-     *      Whether or not to compress this {@code int}.
-     *      A currently unnamed algorithm will write the
-     *      minimum amount of bits to the backing
-     *      {@link BitSet} rather than an entire {@code int}.
-     * @param parity
+     * @return
+     *      This {@link BitBuffer} to allow for the
+     *      convenience of method-chaining.
+     */
+    default BitBuffer putInt(int i) {
+        return putBits(i, false, Integer.SIZE, Sign.EITHER);
+    }
+
+    /**
+     * Appends a compressed {@code int} to this {@link BitBuffer}.
+     *
+     * @param i
+     *      The {@code int} to append.
+     * @param sign
      *      Whether {@code i} is explicitly positive, negative, or
      *      either of the two.  Explicitly making {@code parity} as
      *      positive or negative will yield a better compression ratio.
      *      Marking a positive {@code i} with a {@code NEGATIVE} parity
      *      (and vice versa) may result in the wrong value being added
-     *      to the {@link BitBuffer} (if {@code compressed} is set to
-     *      {@code true}).
+     *      to the {@link BitBuffer}.
      * @return
      *      This {@link BitBuffer} to allow for the
      *      convenience of method-chaining.
      */
-    default BitBuffer putInt(int i, boolean compressed, Parity parity) {
-        return putBits(i, compressed, parity, Integer.SIZE, MAX_INTEGER_BITS);
+    default BitBuffer putCompressedInt(int i, Sign sign) {
+        return putBits(i, true, Integer.SIZE, sign);
     }
 
     /**
-     * Appends a {@code long} to this {@link BitBuffer}.
+     * Appends an uncompressed {@code long} to this {@link BitBuffer}.
      *
      * @param l
      *      The {@code long} to append.
-     * @param compressed
-     *      Whether or not to compress this {@code long}.
-     *      A currently unnamed algorithm will write the
-     *      minimum amount of bits to the backing
-     *      {@link BitSet} rather than an entire {@code long}.
-     * @param parity
-     *      Whether {@code i} is explicitly positive, negative, or
-     *      either of the two.  Explicitly making {@code parity} as
-     *      positive or negative will yield a better compression ratio.
-     *      Marking a positive {@code i} with a {@code NEGATIVE} parity
-     *      (and vice versa) may result in the wrong value being added
-     *      to the {@link BitBuffer} (if {@code compressed} is set to
-     *      {@code true}).
      * @return
      *      This {@link BitBuffer} to allow for the
      *      convenience of method-chaining.
      */
-    default BitBuffer putLong(long l, boolean compressed, Parity parity) {
-        return putBits(l, compressed, parity, Long.SIZE, MAX_LONG_BITS);
+    default BitBuffer putLong(long l) {
+        return putBits(l, false, Long.SIZE, Sign.EITHER);
     }
 
     /**
-     * Appends a {@code short} to this {@link BitBuffer}.
+     * Appends a compressed {@code long} to this {@link BitBuffer}.
+     *
+     * @param l
+     *      The {@code long} to append.
+     * @param sign
+     *      Whether {@code l} is explicitly positive, negative, or
+     *      either of the two.  Explicitly making {@code parity} as
+     *      positive or negative will yield a better compression ratio.
+     *      Marking a positive {@code l} with a {@code NEGATIVE} parity
+     *      (and vice versa) may result in the wrong value being added
+     *      to the {@link BitBuffer}.
+     * @return
+     *      This {@link BitBuffer} to allow for the
+     *      convenience of method-chaining.
+     */
+    default BitBuffer putCompressedLong(long l, Sign sign) {
+        return putBits(l, true, Long.SIZE, sign);
+    }
+
+    /**
+     * Appends an uncompressed {@code short} to this {@link BitBuffer}.
      *
      * @param s
      *      The {@code short} to append.
-     * @param compressed
-     *      Whether or not to compress this {@code short}.
-     *      A currently unnamed algorithm will write the
-     *      minimum amount of bits to the backing
-     *      {@link BitSet} rather than an entire {@code short}.
-     * @param parity
-     *      Whether {@code i} is explicitly positive, negative, or
-     *      either of the two.  Explicitly making {@code parity} as
-     *      positive or negative will yield a better compression ratio.
-     *      Marking a positive {@code i} with a {@code NEGATIVE} parity
-     *      (and vice versa) may result in the wrong value being added
-     *      to the {@link BitBuffer} (if {@code compressed} is set to
-     *      {@code true}).
      * @return
      *      This {@link BitBuffer} to allow for the
      *      convenience of method-chaining.
      */
-    default BitBuffer putShort(int s, boolean compressed, Parity parity) {
-        return putBits(s, compressed, parity, Short.SIZE, MAX_SHORT_BITS);
+    default BitBuffer putShort(int s) {
+        return putBits(s, false, Short.SIZE, Sign.EITHER);
     }
 
-    BitBuffer putBits(long value, boolean compressed, Parity parity, int size, int maxBits);
+    /**
+     * Appends a compressed {@code short} to this {@link BitBuffer}.
+     *
+     * @param s
+     *      The {@code short} to append.
+     * @param sign
+     *      Whether {@code s} is explicitly positive, negative, or
+     *      either of the two.  Explicitly making {@code parity} as
+     *      positive or negative will yield a better compression ratio.
+     *      Marking a positive {@code s} with a {@code NEGATIVE} parity
+     *      (and vice versa) may result in the wrong value being added
+     *      to the {@link BitBuffer}.
+     * @return
+     *      This {@link BitBuffer} to allow for the
+     *      convenience of method-chaining.
+     */
+    default BitBuffer putCompressedShort(int s, Sign sign) {
+        return putBits(s, true, Short.SIZE, sign);
+    }
 
-    Number readBits(boolean compressed, Parity parity, int size, int maxBits);
+    BitBuffer putBits(long value, boolean compressed, int size, Sign sign);
 
+    Number readBits(boolean compressed, int size, Sign sign);
+
+    /**
+     * Converts this {@link BitBuffer}'s data to a byte array.
+     *
+     * @return
+     *      A {@code byte[]}.
+     */
     byte[] toByteArray();
 
     /**
-     * Gets an {@code int} from this {@link BitBuffer}.
+     * Gets an uncompressed {@code byte} from this {@link BitBuffer}.
      *
-     * @param compressed
-     *      Whether or not the {@code int} being read
-     *      was compressed when it was written. Note that
-     *      no {@link BufferUnderflowException} checks
-     *      are made when attempting to read compressed
-     *      data, so calling this method at the wrong time
-     *      may return an incorrect value.
-     * @param parity
+     * @return
+     *      A {@code byte}.
+     */
+    default byte getByte() {
+        return readBits(false, Byte.SIZE, Sign.EITHER).byteValue();
+    }
+
+    /**
+     * Gets an uncompressed {@code int} from this {@link BitBuffer}.
+     *
+     * @return
+     *      An {@code int}.
+     */
+    default int getInt() {
+        return readBits(false, Integer.SIZE, Sign.EITHER).intValue();
+    }
+
+    /**
+     * Gets a compressed {@code int} from this {@link BitBuffer}.
+     *
+     * @param sign
      *      Whether the value returned is explicitly positive, negative, or
-     *      either of the two.  If the {@link Parity} of the call to
-     *      {@link BitBuffer#putInt(int, boolean, Parity)} for this respective
+     *      either of the two.  If the {@link Sign} of the call to
+     *      {@link BitBuffer#putCompressedInt(int, Sign)} for this respective
      *      value was marked as {@code POSITIVE} or {@code NEGATIVE}, then
-     *      the {@link Parity} of this method call <strong>must</strong> be
+     *      the {@link Sign} of this method call <strong>must</strong> be
      *      marked the same.  Marking the incorrect {@code parity} may result
      *      in the wrong value being read from the {@link BitBuffer} (if
      *      {@code compressed} is set to {@code true}).
      * @return
      *      An {@code int}.
      */
-    default int getInt(boolean compressed, Parity parity) {
-        return readBits(compressed, parity, Integer.SIZE, MAX_INTEGER_BITS).intValue();
+    default int getCompressedInt(Sign sign) {
+        return readBits(true, Integer.SIZE, sign).intValue();
     }
 
     /**
-     * Gets a {@code long} from this {@link BitBuffer}.
+     * Gets an uncompressed {@code long} from this {@link BitBuffer}.
      *
-     * @param compressed
-     *      Whether or not the {@code long} being read
-     *      was compressed when it was written. Note that
-     *      no {@link BufferUnderflowException} checks
-     *      are made when attempting to read compressed
-     *      data, so calling this method at the wrong time
-     *      may return an incorrect value.
-     * @param parity
+     * @return
+     *      A {@code long}.
+     */
+    default long getLong() {
+        return readBits(false, Long.SIZE, Sign.EITHER).intValue();
+    }
+
+    /**
+     * Gets a compressed {@code long} from this {@link BitBuffer}.
+     *
+     * @param sign
      *      Whether the value returned is explicitly positive, negative, or
-     *      either of the two.  If the {@link Parity} of the call to
-     *      {@link BitBuffer#putInt(int, boolean, Parity)} for this respective
+     *      either of the two.  If the {@link Sign} of the call to
+     *      {@link BitBuffer#putCompressedLong(long, Sign)} for this respective
      *      value was marked as {@code POSITIVE} or {@code NEGATIVE}, then
-     *      the {@link Parity} of this method call <strong>must</strong> be
+     *      the {@link Sign} of this method call <strong>must</strong> be
      *      marked the same.  Marking the incorrect {@code parity} may result
      *      in the wrong value being read from the {@link BitBuffer} (if
      *      {@code compressed} is set to {@code true}).
      * @return
      *      A {@code long}.
      */
-    default long getLong(boolean compressed, Parity parity) {
-        return readBits(compressed, parity, Long.SIZE, MAX_LONG_BITS).longValue();
+    default long getCompressedLong(Sign sign) {
+        return readBits(true, Long.SIZE, sign).longValue();
     }
 
     /**
-     * Gets a {@code short} from this {@link BitBuffer}.
+     * Gets an uncompressed {@code short} from this {@link BitBuffer}.
      *
-     * @param compressed
-     *      Whether or not the {@code short} being read
-     *      was compressed when it was written. Note that
-     *      no {@link BufferUnderflowException} checks
-     *      are made when attempting to read compressed
-     *      data, so calling this method at the wrong time
-     *      may return an incorrect value.
-     * @param parity
+     * @return
+     *      A {@code short}.
+     */
+    default short getShort() {
+        return readBits(false, Short.SIZE, Sign.EITHER).shortValue();
+    }
+
+    /**
+     * Gets a compressed {@code short} from this {@link BitBuffer}.
+     *
+     * @param sign
      *      Whether the value returned is explicitly positive, negative, or
-     *      either of the two.  If the {@link Parity} of the call to
-     *      {@link BitBuffer#putInt(int, boolean, Parity)} for this respective
+     *      either of the two.  If the {@link Sign} of the call to
+     *      {@link BitBuffer#putCompressedShort(int, Sign)} for this respective
      *      value was marked as {@code POSITIVE} or {@code NEGATIVE}, then
-     *      the {@link Parity} of this method call <strong>must</strong> be
+     *      the {@link Sign} of this method call <strong>must</strong> be
      *      marked the same.  Marking the incorrect {@code parity} may result
      *      in the wrong value being read from the {@link BitBuffer} (if
      *      {@code compressed} is set to {@code true}).
      * @return
-     *      A {@code short}.
+     *      A {@code long}.
      */
-    default short getShort(boolean compressed, Parity parity) {
-        return readBits(compressed, parity, Short.SIZE, MAX_SHORT_BITS).shortValue();
+    default long getCompressedShort(Sign sign) {
+        return readBits(true, Short.SIZE, sign).shortValue();
     }
 
     /**
@@ -203,7 +242,7 @@ public interface BitBuffer {
      * @return
      *      The base 2 logarithm of {@code l}.
      */
-    private static int log2(long l) {
+    static int log2(long l) {
         return Long.SIZE - 1 - Long.numberOfLeadingZeros(l);
     }
 

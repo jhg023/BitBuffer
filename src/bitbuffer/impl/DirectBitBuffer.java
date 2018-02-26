@@ -1,6 +1,7 @@
 package bitbuffer.impl;
 
 import bitbuffer.BitBuffer;
+import bitbuffer.Sign;
 import sun.misc.Unsafe;
 
 public final class DirectBitBuffer implements BitBuffer {
@@ -26,7 +27,7 @@ public final class DirectBitBuffer implements BitBuffer {
     }
 
     @Override
-    public BitBuffer putBits(long value, boolean compressed, int size, int maxBits) {
+    public BitBuffer putBits(long value, boolean compressed, int size, Sign sign) {
         if (!compressed) {
             /*
              * If the last byte has not been fully written to,
@@ -54,7 +55,7 @@ public final class DirectBitBuffer implements BitBuffer {
     }
 
     @Override
-    public Number readBits(boolean compressed, int size, int maxBits) {
+    public Number readBits(boolean compressed, int size, Sign sign) {
         return null;
     }
 
