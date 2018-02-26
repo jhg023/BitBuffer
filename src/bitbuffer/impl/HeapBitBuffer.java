@@ -1,4 +1,6 @@
-package main.java;
+package bitbuffer.impl;
+
+import bitbuffer.BitBuffer;
 
 import java.io.Serializable;
 import java.nio.BufferUnderflowException;

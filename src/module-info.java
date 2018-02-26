@@ -1,5 +1,7 @@
 module BitBuffer {
     requires jdk.unsupported;
     requires javafx.graphics;
-    exports main.java;
+
+    exports bitbuffer;
+    exports bitbuffer.impl;
 }

@@ -1,4 +1,6 @@
-package main.java;
+package bitbuffer.impl;
+
+import bitbuffer.BitBuffer;
 
 import java.nio.BufferUnderflowException;
 import java.util.BitSet;

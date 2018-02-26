@@ -1,7 +1,8 @@
-package main.java;
+package bitbuffer.impl;
+
+import bitbuffer.BitBuffer;
 
 import java.text.NumberFormat;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class Main {

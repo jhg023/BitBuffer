@@ -1,5 +1,6 @@
-package main.java;
+package bitbuffer.impl;
 
+import bitbuffer.BitBuffer;
 import sun.misc.Unsafe;
 
 public final class DirectBitBuffer implements BitBuffer {
