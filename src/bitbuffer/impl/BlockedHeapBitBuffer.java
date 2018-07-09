@@ -36,7 +36,7 @@ public class BlockedHeapBitBuffer extends HeapBitBuffer {
     }
 
     @Override
-    public BitBuffer putBits(long value, boolean compressed, int size, Sign sign) {
+    public BitBuffer putBits(long value, boolean compressed, int size, int maxBits, Sign sign) {
         if (!compressed) {
             for (int i = 0; i < size; i++) {
                 bits.set(limit++, (value & (1L << i)) != 0);
@@ -54,7 +54,7 @@ public class BlockedHeapBitBuffer extends HeapBitBuffer {
 
         int numBits = Long.SIZE - Long.numberOfLeadingZeros(value);
 
-        if (numBits >= size - BitBuffer.log2(size) - 1) {
+        if (numBits >= size - maxBits) {
             limit++;
 
             if (sign == Sign.EITHER) {

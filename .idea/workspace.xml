@@ -2,49 +2,79 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa1587ff-e0e1-4605-b0d8-eede92487909" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/bitbuffer/BitBuffer.java" afterPath="$PROJECT_DIR$/src/bitbuffer/BitBuffer.java" />
-      <change beforePath="$PROJECT_DIR$/src/bitbuffer/Parity.java" afterPath="$PROJECT_DIR$/src/bitbuffer/Sign.java" />
-      <change beforePath="$PROJECT_DIR$/src/bitbuffer/impl/BlockedBitBuffer.java" afterPath="$PROJECT_DIR$/src/bitbuffer/impl/BlockedHeapBitBuffer.java" />
-      <change beforePath="$PROJECT_DIR$/src/bitbuffer/impl/DirectBitBuffer.java" afterPath="$PROJECT_DIR$/src/bitbuffer/impl/DirectBitBuffer.java" />
-      <change beforePath="$PROJECT_DIR$/src/bitbuffer/impl/HeapBitBuffer.java" afterPath="$PROJECT_DIR$/src/bitbuffer/impl/HeapBitBuffer.java" />
-      <change beforePath="$PROJECT_DIR$/src/bitbuffer/impl/Main.java" afterPath="$PROJECT_DIR$/src/bitbuffer/impl/Main.java" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BitBuffer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/BitBuffer.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bitbuffer/BitBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bitbuffer/BitBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bitbuffer/impl/BlockedHeapBitBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bitbuffer/impl/BlockedHeapBitBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bitbuffer/impl/DirectBitBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bitbuffer/impl/DirectBitBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bitbuffer/impl/HeapBitBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bitbuffer/impl/HeapBitBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bitbuffer/impl/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bitbuffer/impl/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module-info.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="2027617569">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="java" value="5800" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JAVA" value="5800" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="java" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="JAVA" value="2" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="BitBuffer.java" pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/bitbuffer/BitBuffer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4608">
-              <caret line="192" column="0" lean-forward="false" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="510">
+              <caret line="35" column="30" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Sign.java" pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/bitbuffer/Sign.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="48">
-              <caret line="2" column="17" lean-forward="false" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
-              <folding />
+            <state relative-caret-position="54">
+              <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="36" column="25" lean-forward="true" selection-start-line="36" selection-start-column="25" selection-end-line="36" selection-end-column="25" />
+            <state relative-caret-position="378">
+              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -52,11 +82,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BlockedHeapBitBuffer.java" pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/module-info.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="54">
+              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/BlockedHeapBitBuffer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2688">
-              <caret line="130" column="44" lean-forward="false" selection-start-line="130" selection-start-column="44" selection-end-line="130" selection-end-column="44" />
+            <state relative-caret-position="1512">
+              <caret line="56" column="37" selection-start-line="56" selection-start-column="37" selection-end-line="56" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -64,21 +103,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DirectBitBuffer.java" pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/DirectBitBuffer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="48">
-              <caret line="2" column="27" lean-forward="false" selection-start-line="2" selection-start-column="27" selection-end-line="2" selection-end-column="27" />
-              <folding />
+            <state relative-caret-position="494">
+              <caret line="71" lean-forward="true" selection-start-line="71" selection-end-line="71" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HeapBitBuffer.java" pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/HeapBitBuffer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+            <state relative-caret-position="333">
+              <caret line="82" column="17" selection-start-line="82" selection-start-column="17" selection-end-line="82" selection-end-column="17" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -102,6 +143,8 @@
       <find>putLo</find>
       <find>add</find>
       <find>toStr</find>
+      <find>package bitbuffer\.impl\;\n\nimport bitbuffer\.BitBuffer\;\nimport bitbuffer\.Sign\;\n\nimport java\.io\.FileNotFoundException\;\nimport java\.io\.FileOutputStream\;\nimport java\.io\.IOException\;\nimport java\.nio\.file\.Path\;\nimport java\.text\.NumberFormat\;\nimport java\.util\.\*\;\nimport java\.util\.concurrent\.ThreadLocalRandom\;\nimport java\.util\.stream\.IntStream\;\n\npublic final class Main \{\n\n    public static void main\(String\[\] args\) \{\n        SortedMap\&lt;String\, Integer\&gt; map \= new TreeMap\&lt;String\, Integer\&gt;\(Map\.Entry\.comparingByValue\(\)\)\;\n\n        int n \= 60_000_000\;\n\n                int\[\] numbers \= new int\[n\]\;\n\n        BitBuffer buffer \= new HeapBitBuffer\(n \* 4 \* 8\)\;\n\n        for \(int i \= 0\; i \&lt; n\; i\+\+\) \{\n            int num \= ThreadLocalRandom\.current\(\)\.nextInt\(\-100_000\, 100_000\)\;\n\n            numbers\[i\] \= num\;\n\n            \/\/System\.out\.println\(\(i \+ 1\) \+ \&quot;\. \&quot; \+ num \+ \&quot; \&quot; \+ \(Long\.SIZE \- Long\.numberOfLeadingZeros\(num\)\)\)\;\n\n            buffer\.putCompressedInt\(num\, Sign\.EITHER\)\;\n        \}\n\n        byte\[\] array \= buffer\.toByteArray\(\)\;\n\n        System\.out\.println\(\&quot;Compressed\: \&quot; \+ NumberFormat\.getInstance\(\)\.format\(array\.length\) \+ \&quot; Bytes\&quot;\)\;\n        System\.out\.println\(\&quot;Uncompressed\: \&quot; \+ NumberFormat\.getInstance\(\)\.format\(n \* 4\) \+ \&quot; Bytes\&quot;\)\;\n        System\.out\.println\(\&quot;Compressed \&quot; \+ String\.format\(\&quot;\%\.8f\&quot;\, 100 \- \(array\.length \/ \(n \* 4D\) \* 100\)\) \+ \&quot;\% \(Higher is better\)\&quot;\)\;\n        System\.out\.println\(\&quot;Bits\/Integer\: \&quot; \+ array\.length \* 8D \/ n\)\;\n\n        for \(int i \= 0\; i \&lt; n\; i\+\+\) \{\n            int num \= buffer\.getCompressedInt\(Sign\.EITHER\)\;\n\n            \/\/System\.out\.println\(\(i \+ 1\) \+ \&quot;\. \&quot; \+ num\)\;\n\n            if \(numbers\[i\] \!\= num\) \{\n                throw new RuntimeException\(numbers\[i\] \+ \&quot; \&quot; \+ num\)\;\n            \}\n        \}\n    \}\n\n\}\n</find>
+      <find>append(Obj</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -120,14 +163,14 @@
         <option value="$PROJECT_DIR$/src/main/java/BlockedBitBuffer.java" />
         <option value="$PROJECT_DIR$/src/main/java/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/HeapBitBuffer.java" />
-        <option value="$PROJECT_DIR$/src/module-info.java" />
         <option value="$PROJECT_DIR$/src/bitbuffer/impl/BlockedBitBuffer.java" />
         <option value="$PROJECT_DIR$/src/bitbuffer/Parity.java" />
         <option value="$PROJECT_DIR$/src/bitbuffer/Sign.java" />
         <option value="$PROJECT_DIR$/src/bitbuffer/impl/BlockedHeapBitBuffer.java" />
-        <option value="$PROJECT_DIR$/src/bitbuffer/impl/HeapBitBuffer.java" />
-        <option value="$PROJECT_DIR$/src/bitbuffer/BitBuffer.java" />
         <option value="$PROJECT_DIR$/src/bitbuffer/impl/Main.java" />
+        <option value="$PROJECT_DIR$/src/module-info.java" />
+        <option value="$PROJECT_DIR$/src/bitbuffer/BitBuffer.java" />
+        <option value="$PROJECT_DIR$/src/bitbuffer/impl/HeapBitBuffer.java" />
         <option value="$PROJECT_DIR$/src/bitbuffer/impl/DirectBitBuffer.java" />
       </list>
     </option>
@@ -144,23 +187,641 @@
     <option name="width" value="1400" />
     <option name="height" value="990" />
   </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>XML</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectUserFactors">
+    <factor id="binaryFeature:liftShorter">
+      <dailyData date="7-7-2018">
+        <observation name="false" value="261.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="false" value="448.0" />
+      </dailyData>
+    </factor>
+    <factor id="binaryFeature:liftShorterClasses">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="14.0" />
+        <observation name="false" value="247.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="10.0" />
+        <observation name="false" value="438.0" />
+      </dailyData>
+    </factor>
+    <factor id="binaryFeature:middleMatching">
+      <dailyData date="7-7-2018">
+        <observation name="false" value="260.0" />
+        <observation name="true" value="1.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="false" value="448.0" />
+      </dailyData>
+    </factor>
+    <factor id="binaryFeature:nonGeneric">
+      <dailyData date="7-7-2018">
+        <observation name="0" value="143.0" />
+        <observation name="UNDEFINED" value="118.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="0" value="268.0" />
+        <observation name="UNDEFINED" value="180.0" />
+      </dailyData>
+    </factor>
+    <factor id="binaryFeature:prox_inResolveScope">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="15.0" />
+        <observation name="false" value="39.0" />
+        <observation name="true" value="207.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="false" value="55.0" />
+        <observation name="true" value="382.0" />
+      </dailyData>
+    </factor>
+    <factor id="binaryFeature:prox_openedInEditor">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="15.0" />
+        <observation name="false" value="120.0" />
+        <observation name="true" value="126.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="false" value="217.0" />
+        <observation name="true" value="220.0" />
+      </dailyData>
+    </factor>
+    <factor id="binaryFeature:prox_sameDirectory">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="15.0" />
+        <observation name="false" value="125.0" />
+        <observation name="true" value="121.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="false" value="217.0" />
+        <observation name="true" value="220.0" />
+      </dailyData>
+    </factor>
+    <factor id="binaryFeature:prox_sameLogicalRoot">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="15.0" />
+        <observation name="false" value="120.0" />
+        <observation name="true" value="126.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="false" value="217.0" />
+        <observation name="true" value="220.0" />
+      </dailyData>
+    </factor>
+    <factor id="binaryFeature:prox_sdkOrLibrary">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="15.0" />
+        <observation name="false" value="165.0" />
+        <observation name="true" value="81.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="false" value="275.0" />
+        <observation name="true" value="162.0" />
+      </dailyData>
+    </factor>
+    <factor id="binaryFeature:templates">
+      <dailyData date="7-7-2018">
+        <observation name="false" value="261.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="false" value="448.0" />
+      </dailyData>
+    </factor>
+    <factor id="categoricalFeature:accessible">
+      <dailyData date="7-7-2018">
+        <observation name="NORMAL" value="250.0" />
+        <observation name="UNDEFINED" value="11.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="NORMAL" value="440.0" />
+        <observation name="UNDEFINED" value="8.0" />
+      </dailyData>
+    </factor>
+    <factor id="categoricalFeature:expectedType">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="expected" value="98.0" />
+        <observation name="maybeExpected" value="1.0" />
+        <observation name="normal" value="126.0" />
+        <observation name="ofDefaultType" value="25.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="8.0" />
+        <observation name="expected" value="183.0" />
+        <observation name="maybeExpected" value="5.0" />
+        <observation name="normal" value="237.0" />
+        <observation name="ofDefaultType" value="15.0" />
+      </dailyData>
+    </factor>
+    <factor id="categoricalFeature:kind">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="classNameOrGlobalStatic" value="37.0" />
+        <observation name="expectedTypeVariable" value="66.0" />
+        <observation name="normal" value="93.0" />
+        <observation name="probableKeyword" value="4.0" />
+        <observation name="variable" value="50.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="8.0" />
+        <observation name="classNameOrGlobalStatic" value="61.0" />
+        <observation name="expectedTypeConstant" value="1.0" />
+        <observation name="expectedTypeMethod" value="1.0" />
+        <observation name="expectedTypeVariable" value="108.0" />
+        <observation name="improbableKeyword" value="1.0" />
+        <observation name="normal" value="165.0" />
+        <observation name="probableKeyword" value="7.0" />
+        <observation name="suitableClass" value="3.0" />
+        <observation name="variable" value="93.0" />
+      </dailyData>
+    </factor>
+    <factor id="categoricalFeature:prox_groovyReferenceListWeigher">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="15.0" />
+        <observation name="unknown" value="246.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="unknown" value="437.0" />
+      </dailyData>
+    </factor>
+    <factor id="categoricalFeature:prox_javaInheritance">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="15.0" />
+        <observation name="false" value="37.0" />
+        <observation name="null" value="209.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="false" value="64.0" />
+        <observation name="null" value="373.0" />
+      </dailyData>
+    </factor>
+    <factor id="categoricalFeature:prox_referenceList">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="15.0" />
+        <observation name="unknown" value="246.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="unknown" value="437.0" />
+      </dailyData>
+    </factor>
+    <factor id="categoricalFeature:recursion">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="29.0" />
+        <observation name="normal" value="231.0" />
+        <observation name="recursive" value="1.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="35.0" />
+        <observation name="normal" value="411.0" />
+        <observation name="recursive" value="2.0" />
+      </dailyData>
+    </factor>
+    <factor id="completionFinishedType">
+      <dailyData date="7-7-2018">
+        <observation name="cancelled" value="893.0" />
+        <observation name="explicitSelect" value="120.0" />
+        <observation name="typedSelect" value="141.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="cancelled" value="494.0" />
+        <observation name="explicitSelect" value="232.0" />
+        <observation name="typedSelect" value="216.0" />
+      </dailyData>
+    </factor>
+    <factor id="completionType">
+      <dailyData date="7-7-2018">
+        <observation name="BASIC" value="286.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="BASIC" value="494.0" />
+      </dailyData>
+    </factor>
+    <factor id="completionUsage">
+      <dailyData date="7-7-2018">
+        <observation name="count" value="1154.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="count" value="942.0" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:explicitProximity">
+      <dailyData date="7-7-2018">
+        <observation name="average" value="0.122841" />
+        <observation name="count" value="521.0" />
+        <observation name="max" value="1.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="0.092383" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="average" value="0.129609" />
+        <observation name="count" value="895.0" />
+        <observation name="max" value="1.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="0.109753" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:grouping">
+      <dailyData date="7-7-2018">
+        <observation name="average" value="0.0" />
+        <observation name="count" value="521.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="0.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="average" value="0.0" />
+        <observation name="count" value="895.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="0.0" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:mostUsed">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="189.0" />
+        <observation name="average" value="-7.125874" />
+        <observation name="count" value="143.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="-39.0" />
+        <observation name="variance" value="64.310968" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="307.0" />
+        <observation name="average" value="-7.373665" />
+        <observation name="count" value="281.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="-20.0" />
+        <observation name="variance" value="25.898877" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:nameEnd">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="average" value="-0.04008" />
+        <observation name="count" value="499.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="-3.0" />
+        <observation name="variance" value="0.058687" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="8.0" />
+        <observation name="average" value="-0.027304" />
+        <observation name="count" value="879.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="-2.0" />
+        <observation name="variance" value="0.03028" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:position">
+      <dailyData date="7-7-2018">
+        <observation name="average" value="0.034549" />
+        <observation name="count" value="521.0" />
+        <observation name="max" value="4.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="0.058645" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="average" value="0.067039" />
+        <observation name="count" value="895.0" />
+        <observation name="max" value="4.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="0.095689" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:prefix">
+      <dailyData date="7-7-2018">
+        <observation name="average" value="-1130.512476" />
+        <observation name="count" value="521.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="-1203.0" />
+        <observation name="variance" value="14075.153763" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="average" value="-1116.070391" />
+        <observation name="count" value="895.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="-1253.0" />
+        <observation name="variance" value="25687.2441" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:priority">
+      <dailyData date="7-7-2018">
+        <observation name="average" value="-0.003839" />
+        <observation name="count" value="521.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="-1.0" />
+        <observation name="variance" value="0.01219" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="average" value="0.0" />
+        <observation name="count" value="895.0" />
+        <observation name="max" value="1.0" />
+        <observation name="min" value="-1.0" />
+        <observation name="variance" value="0.012062" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:prox_explicitlyImported">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="15.0" />
+        <observation name="average" value="162.321792" />
+        <observation name="count" value="491.0" />
+        <observation name="max" value="300.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="18224.659246" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="average" value="165.063001" />
+        <observation name="count" value="873.0" />
+        <observation name="max" value="300.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="16887.036958" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:prox_knownElement">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="15.0" />
+        <observation name="average" value="1.967413" />
+        <observation name="count" value="491.0" />
+        <observation name="max" value="8.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="7.394491" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="average" value="1.887743" />
+        <observation name="count" value="873.0" />
+        <observation name="max" value="8.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="7.801485" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:prox_sameModule">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="15.0" />
+        <observation name="average" value="1.026477" />
+        <observation name="count" value="491.0" />
+        <observation name="max" value="2.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="0.908426" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="average" value="1.008018" />
+        <observation name="count" value="873.0" />
+        <observation name="max" value="2.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="0.853555" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:prox_samePsiMember">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="15.0" />
+        <observation name="average" value="0.810591" />
+        <observation name="count" value="491.0" />
+        <observation name="max" value="2.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="0.667978" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="average" value="0.767468" />
+        <observation name="count" value="873.0" />
+        <observation name="max" value="2.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="0.567729" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:query_length">
+      <dailyData date="7-7-2018">
+        <observation name="average" value="0.0" />
+        <observation name="count" value="521.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="0.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="average" value="0.0" />
+        <observation name="count" value="895.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="0.0" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:result_length">
+      <dailyData date="7-7-2018">
+        <observation name="average" value="6.003839" />
+        <observation name="count" value="521.0" />
+        <observation name="max" value="20.0" />
+        <observation name="min" value="1.0" />
+        <observation name="variance" value="10.320916" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="average" value="5.962011" />
+        <observation name="count" value="895.0" />
+        <observation name="max" value="23.0" />
+        <observation name="min" value="1.0" />
+        <observation name="variance" value="8.331188" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:sameWords">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="average" value="-0.048096" />
+        <observation name="count" value="499.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="-3.0" />
+        <observation name="variance" value="0.076497" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="8.0" />
+        <observation name="average" value="-0.031854" />
+        <observation name="count" value="879.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="-2.0" />
+        <observation name="variance" value="0.032813" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:shorter">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="average" value="-23.987976" />
+        <observation name="count" value="499.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="-998.0" />
+        <observation name="variance" value="16086.715243" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="8.0" />
+        <observation name="average" value="-24.98066" />
+        <observation name="count" value="879.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="-999.0" />
+        <observation name="variance" value="26762.006147" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:simple">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="11.0" />
+        <observation name="average" value="0.12024" />
+        <observation name="count" value="499.0" />
+        <observation name="max" value="10.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="1.461512" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="8.0" />
+        <observation name="average" value="0.045506" />
+        <observation name="count" value="879.0" />
+        <observation name="max" value="10.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="0.83825" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:sorter">
+      <dailyData date="7-7-2018">
+        <observation name="average" value="1.0" />
+        <observation name="count" value="521.0" />
+        <observation name="max" value="1.0" />
+        <observation name="min" value="1.0" />
+        <observation name="variance" value="0.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="average" value="1.0" />
+        <observation name="count" value="895.0" />
+        <observation name="max" value="1.0" />
+        <observation name="min" value="1.0" />
+        <observation name="variance" value="0.0" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:statics">
+      <dailyData date="7-7-2018">
+        <observation name="UNDEFINED" value="214.0" />
+        <observation name="average" value="-3.806452" />
+        <observation name="count" value="93.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="-5.0" />
+        <observation name="variance" value="1.746085" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="UNDEFINED" value="365.0" />
+        <observation name="average" value="-4.072727" />
+        <observation name="count" value="165.0" />
+        <observation name="max" value="0.0" />
+        <observation name="min" value="-5.0" />
+        <observation name="variance" value="1.307338" />
+      </dailyData>
+    </factor>
+    <factor id="doubleFeature:stats">
+      <dailyData date="7-7-2018">
+        <observation name="average" value="1420.153551" />
+        <observation name="count" value="521.0" />
+        <observation name="max" value="10000.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="10361804.409045" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="average" value="2770.406704" />
+        <observation name="count" value="895.0" />
+        <observation name="max" value="10000.0" />
+        <observation name="min" value="0.0" />
+        <observation name="variance" value="18169835.506082" />
+      </dailyData>
+    </factor>
+    <factor id="itemPosition">
+      <dailyData date="7-7-2018">
+        <observation name="0" value="114.0" />
+        <observation name="1" value="5.0" />
+        <observation name="4" value="1.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="0" value="208.0" />
+        <observation name="1" value="20.0" />
+        <observation name="2" value="3.0" />
+        <observation name="4" value="1.0" />
+      </dailyData>
+    </factor>
+    <factor id="mnemonicsUsage">
+      <dailyData date="7-7-2018">
+        <observation name="total" value="108.0" />
+        <observation name="withMnemonics" value="2.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="total" value="197.0" />
+        <observation name="withMnemonics" value="1.0" />
+      </dailyData>
+    </factor>
+    <factor id="prefixLength">
+      <dailyData date="7-7-2018">
+        <observation name="0" value="1.0" />
+        <observation name="1" value="11.0" />
+        <observation name="2" value="67.0" />
+        <observation name="3" value="25.0" />
+        <observation name="4" value="6.0" />
+        <observation name="5" value="4.0" />
+        <observation name="6" value="1.0" />
+        <observation name="7" value="2.0" />
+        <observation name="8" value="2.0" />
+        <observation name="9" value="1.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="0" value="8.0" />
+        <observation name="1" value="27.0" />
+        <observation name="10" value="2.0" />
+        <observation name="13" value="1.0" />
+        <observation name="2" value="120.0" />
+        <observation name="3" value="48.0" />
+        <observation name="4" value="10.0" />
+        <observation name="5" value="6.0" />
+        <observation name="6" value="5.0" />
+        <observation name="7" value="2.0" />
+        <observation name="8" value="3.0" />
+      </dailyData>
+    </factor>
+    <factor id="timeBetweenTyping">
+      <dailyData date="7-7-2018">
+        <observation name="average" value="159.792651" />
+        <observation name="count" value="381.0" />
+      </dailyData>
+      <dailyData date="8-7-2018">
+        <observation name="average" value="135.565868" />
+        <observation name="count" value="668.0" />
+      </dailyData>
+    </factor>
+  </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
-      <showLibraryContents />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
-      <manualOrder />
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -190,16 +851,17 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.20353982" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -213,54 +875,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <module />
-    </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="bitbuffer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="MAIN_CLASS_NAME" value="bitbuffer.impl.Main" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="BitBuffer" />
-      <envs />
-    </configuration>
-    <configuration default="true" type="Application" factoryName="Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
-    </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-    </configuration>
+  <component name="RunManager" selected="Application.DirectBitBuffer">
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -314,14 +929,53 @@
       <option name="PROGRAM_PARAMETERS" />
       <predefined_log_file id="idea.log" enabled="true" />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DirectBitBuffer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="bitbuffer.impl.DirectBitBuffer" />
+      <module name="BitBuffer" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="bitbuffer.impl.Main" />
+      <module name="BitBuffer" />
+      <option name="VM_PARAMETERS" value="-Xms1G" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="bitbuffer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.DirectBitBuffer" />
+    </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Application.Main" />
+      <list>
+        <item itemvalue="Application.DirectBitBuffer" />
+        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -340,47 +994,36 @@
     <option name="totallyTimeSpent" value="52214000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1552" height="840" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17838542" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32899022" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42978725" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32899022" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3997722" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3997722" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32899022" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33333334" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14270833" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11513859" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.42496493" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33188722" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3991323" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.3275488" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Database" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Maven Projects" order="8" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -391,229 +1034,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Better compression (for positive integers)!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Better compression (for positive integers)!" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <option name="time" value="1" />
-    </breakpoint-manager>
-    <watches-manager />
+    <MESSAGE value="Read/write methods were split into (un)compressed methods." />
+    <option name="LAST_COMMIT_MESSAGE" value="Read/write methods were split into (un)compressed methods." />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/util/BitSet.java" />
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/io/Serializable.java" />
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/BitBuffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/BitBuffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/util/BitSet.java" />
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="760">
-          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/BitBuffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4560">
-          <caret line="122" column="38" lean-forward="false" selection-start-line="122" selection-start-column="38" selection-end-line="122" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="14" column="67" lean-forward="false" selection-start-line="14" selection-start-column="67" selection-end-line="14" selection-end-column="67" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/BitBuffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4636">
-          <caret line="122" column="38" lean-forward="false" selection-start-line="122" selection-start-column="38" selection-end-line="122" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/module-info.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="1" column="22" lean-forward="true" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/lang/Math.java" />
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/util/ArrayList.java" />
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/util/BitSet.java" />
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="760">
-          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/BitBuffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11438">
-          <caret line="303" column="33" lean-forward="false" selection-start-line="303" selection-start-column="33" selection-end-line="303" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/BitBuffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4560">
-          <caret line="122" column="38" lean-forward="false" selection-start-line="122" selection-start-column="38" selection-end-line="122" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="14" column="67" lean-forward="false" selection-start-line="14" selection-start-column="67" selection-end-line="14" selection-end-column="67" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/BitBuffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4636">
-          <caret line="122" column="38" lean-forward="false" selection-start-line="122" selection-start-column="38" selection-end-line="122" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/module-info.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="1" column="22" lean-forward="true" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/lang/Math.java" />
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/util/ArrayList.java" />
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/util/BitSet.java" />
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="760">
-          <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/BitBuffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5737">
-          <caret line="303" column="33" lean-forward="false" selection-start-line="303" selection-start-column="33" selection-end-line="303" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/BitBuffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/util/BitSet.java" />
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/BitBuffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4560">
-          <caret line="122" column="38" lean-forward="false" selection-start-line="122" selection-start-column="38" selection-end-line="122" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="14" column="67" lean-forward="false" selection-start-line="14" selection-start-column="67" selection-end-line="14" selection-end-column="67" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/BitBuffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4636">
-          <caret line="122" column="38" lean-forward="false" selection-start-line="122" selection-start-column="38" selection-end-line="122" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/lang/Math.java" />
     <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/util/ArrayList.java" />
     <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/io/Serializable.java" />
@@ -625,34 +1049,83 @@
     <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/javafx.graphics/com/sun/javafx/tk/FontLoader.java" />
     <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/javafx.graphics/javafx/scene/text/Font.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/Test.java" />
-    <entry file="file://$PROJECT_DIR$/src/module-info.java">
+    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.base/java/lang/String.java" />
+    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.base/jdk/internal/misc/Unsafe.java" />
+    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/jdk.unsupported/sun/misc/Unsafe.java" />
+    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.base/java/util/function/LongConsumer.java" />
+    <entry file="jar://C:/Program Files/Java/jdk-10/lib/src.zip!/java.base/java/util/Collections.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="1" column="29" lean-forward="false" selection-start-line="1" selection-start-column="29" selection-end-line="1" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/BitBuffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4608">
-          <caret line="192" column="0" lean-forward="false" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="-42">
+          <caret line="781" column="28" selection-start-line="781" selection-start-column="28" selection-end-line="781" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/bitbuffer/Sign.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="2" column="17" lean-forward="false" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
-          <folding />
+        <state relative-caret-position="54">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-10/lib/src.zip!/java.base/java/util/BitSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="219" column="7" lean-forward="true" selection-start-line="219" selection-start-column="7" selection-end-line="219" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/module-info.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-10/lib/src.zip!/java.base/java/lang/StringBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="134" column="31" lean-forward="true" selection-start-line="134" selection-start-column="31" selection-end-line="134" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-10/lib/src.zip!/java.base/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="2786" column="25" selection-start-line="2786" selection-start-column="25" selection-end-line="2786" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/BlockedHeapBitBuffer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2688">
-          <caret line="130" column="44" lean-forward="false" selection-start-line="130" selection-start-column="44" selection-end-line="130" selection-end-column="44" />
+        <state relative-caret-position="1512">
+          <caret line="56" column="37" selection-start-line="56" selection-start-column="37" selection-end-line="56" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bitbuffer/BitBuffer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="35" column="30" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/HeapBitBuffer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="333">
+          <caret line="82" column="17" selection-start-line="82" selection-start-column="17" selection-end-line="82" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -661,26 +1134,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/DirectBitBuffer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="2" column="27" lean-forward="false" selection-start-line="2" selection-start-column="27" selection-end-line="2" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="36" column="25" lean-forward="true" selection-start-line="36" selection-start-column="25" selection-end-line="36" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bitbuffer/impl/HeapBitBuffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        <state relative-caret-position="494">
+          <caret line="71" lean-forward="true" selection-start-line="71" selection-end-line="71" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -690,9 +1145,80 @@
   </component>
   <component name="masterDetails">
     <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>BitBuffer</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.20353982" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
       <state key="ProjectJDKs.UI">
         <settings>
           <last-edited>9.0</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
           <splitter-proportions>
             <option name="proportions">
               <list>

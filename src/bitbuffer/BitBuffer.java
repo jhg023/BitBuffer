@@ -14,6 +14,28 @@ import java.nio.ByteBuffer;
 public interface BitBuffer {
 
     /**
+     * The maximum number of bits required to encode the bit-length
+     * of a {@code short}.
+     */
+    int MAX_SHORT_BITS = log2(Short.SIZE) - 1;
+
+    /**
+     * The maximum number of bits required to encode the bit-length
+     * of an {@code int}.
+     */
+    int MAX_INT_BITS = log2(Integer.SIZE) - 1;
+
+    /**
+     * The maximum number of bits required to encode the bit-length
+     * of a {@code long}.
+     */
+    int MAX_LONG_BITS = log2(Long.SIZE) - 1;
+
+    void putBits(long value, int numBits);
+
+    long getBits(int numBits);
+
+    /**
      * Appends an uncompressed {@code byte} to this {@link BitBuffer}.
      *
      * @param b
@@ -23,7 +45,7 @@ public interface BitBuffer {
      *      convenience of method-chaining.
      */
     default BitBuffer putByte(int b) {
-        return putBits(b, false, Byte.SIZE, Sign.EITHER);
+        return putBits(b, false, Byte.SIZE, -1, Sign.EITHER);
     }
 
     /**
@@ -36,7 +58,7 @@ public interface BitBuffer {
      *      convenience of method-chaining.
      */
     default BitBuffer putInt(int i) {
-        return putBits(i, false, Integer.SIZE, Sign.EITHER);
+        return putBits(i, false, Integer.SIZE, -1, Sign.EITHER);
     }
 
     /**
@@ -56,7 +78,7 @@ public interface BitBuffer {
      *      convenience of method-chaining.
      */
     default BitBuffer putCompressedInt(int i, Sign sign) {
-        return putBits(i, true, Integer.SIZE, sign);
+        return putBits(i, true, Integer.SIZE, MAX_INT_BITS, sign);
     }
 
     /**
@@ -69,7 +91,7 @@ public interface BitBuffer {
      *      convenience of method-chaining.
      */
     default BitBuffer putLong(long l) {
-        return putBits(l, false, Long.SIZE, Sign.EITHER);
+        return putBits(l, false, Long.SIZE, -1, Sign.EITHER);
     }
 
     /**
@@ -89,7 +111,7 @@ public interface BitBuffer {
      *      convenience of method-chaining.
      */
     default BitBuffer putCompressedLong(long l, Sign sign) {
-        return putBits(l, true, Long.SIZE, sign);
+        return putBits(l, true, Long.SIZE, MAX_LONG_BITS, sign);
     }
 
     /**
@@ -102,7 +124,7 @@ public interface BitBuffer {
      *      convenience of method-chaining.
      */
     default BitBuffer putShort(int s) {
-        return putBits(s, false, Short.SIZE, Sign.EITHER);
+        return putBits(s, false, Short.SIZE, -1, Sign.EITHER);
     }
 
     /**
@@ -122,10 +144,10 @@ public interface BitBuffer {
      *      convenience of method-chaining.
      */
     default BitBuffer putCompressedShort(int s, Sign sign) {
-        return putBits(s, true, Short.SIZE, sign);
+        return putBits(s, true, Short.SIZE, MAX_SHORT_BITS, sign);
     }
 
-    BitBuffer putBits(long value, boolean compressed, int size, Sign sign);
+    BitBuffer putBits(long value, boolean compressed, int size, int maxSize, Sign sign);
 
     Number readBits(boolean compressed, int size, Sign sign);
 
@@ -144,7 +166,7 @@ public interface BitBuffer {
      *      A {@code byte}.
      */
     default byte getByte() {
-        return readBits(false, Byte.SIZE, Sign.EITHER).byteValue();
+        return readBits(false, Byte.SIZE, null).byteValue();
     }
 
     /**
@@ -154,7 +176,7 @@ public interface BitBuffer {
      *      An {@code int}.
      */
     default int getInt() {
-        return readBits(false, Integer.SIZE, Sign.EITHER).intValue();
+        return readBits(false, Integer.SIZE, null).intValue();
     }
 
     /**
@@ -183,7 +205,7 @@ public interface BitBuffer {
      *      A {@code long}.
      */
     default long getLong() {
-        return readBits(false, Long.SIZE, Sign.EITHER).intValue();
+        return readBits(false, Long.SIZE, null).intValue();
     }
 
     /**
@@ -212,7 +234,7 @@ public interface BitBuffer {
      *      A {@code short}.
      */
     default short getShort() {
-        return readBits(false, Short.SIZE, Sign.EITHER).shortValue();
+        return readBits(false, Short.SIZE, null).shortValue();
     }
 
     /**
@@ -230,7 +252,7 @@ public interface BitBuffer {
      * @return
      *      A {@code long}.
      */
-    default long getCompressedShort(Sign sign) {
+    default short getCompressedShort(Sign sign) {
         return readBits(true, Short.SIZE, sign).shortValue();
     }
 
@@ -243,7 +265,7 @@ public interface BitBuffer {
      *      The base 2 logarithm of {@code l}.
      */
     static int log2(long l) {
-        return Long.SIZE - 1 - Long.numberOfLeadingZeros(l);
+        return Long.SIZE - Long.numberOfLeadingZeros(l) - 1;
     }
 
 }

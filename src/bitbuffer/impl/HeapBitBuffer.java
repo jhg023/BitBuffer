@@ -73,6 +73,16 @@ public class HeapBitBuffer implements BitBuffer, Serializable {
         limit = buffer.limit() * Byte.SIZE;
     }
 
+    @Override
+    public void putBits(long value, int numBits) {
+
+    }
+
+    @Override
+    public long getBits(int numBits) {
+        return 0L;
+    }
+
     /**
      * Appends a {@code boolean} to this {@link BitBuffer}.
      *
@@ -97,7 +107,7 @@ public class HeapBitBuffer implements BitBuffer, Serializable {
     }
 
     @Override
-    public BitBuffer putBits(long value, boolean compressed, int size, Sign sign) {
+    public BitBuffer putBits(long value, boolean compressed, int size, int maxSize, Sign sign) {
         if (!compressed) {
             for (int i = 0; i < size; i++) {
                 bits.set(limit++, (value & (1L << i)) != 0);
@@ -115,7 +125,7 @@ public class HeapBitBuffer implements BitBuffer, Serializable {
 
         int numBits = Long.SIZE - Long.numberOfLeadingZeros(value);
 
-        if (numBits >= size - BitBuffer.log2(size) - 1) {
+        if (numBits >= size - maxSize) {
             limit++;
 
             if (sign == Sign.EITHER) {
@@ -132,9 +142,9 @@ public class HeapBitBuffer implements BitBuffer, Serializable {
                 bits.set(limit++, shouldNegate);
             }
 
-            int halfLength = (int) Math.ceil((numBits - 1) / 2.0);
+            int halfLength = numBits >> 1;
 
-            for (int i = 0; i < BitBuffer.log2(size) - 1; i++) {
+            for (int i = 0; i < maxSize; i++) {
                 bits.set(limit++, (halfLength & (1 << i)) != 0);
             }
 
@@ -191,7 +201,7 @@ public class HeapBitBuffer implements BitBuffer, Serializable {
 
             int numBits = readBits(BitBuffer.log2(size) - 1).intValue();
 
-            for (int index = 0; index < numBits * 2 + 1; index++) {
+            for (int index = 0; index < (numBits << 1) + 1; index++) {
                 if (bits.get(position++)) {
                     value |= (1L << index);
                 }
