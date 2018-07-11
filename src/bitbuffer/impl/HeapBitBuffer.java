@@ -2,7 +2,6 @@ package bitbuffer.impl;
 
 import bitbuffer.BitBuffer;
 import bitbuffer.Sign;
-
 import java.io.Serializable;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
@@ -74,13 +73,28 @@ public class HeapBitBuffer implements BitBuffer, Serializable {
     }
 
     @Override
-    public void putBits(long value, int numBits) {
-
+    public BitBuffer putBits(long value, int numBits) {
+        for (int i = 0; i < numBits; i++) {
+            bits.set(limit++, (value & (1L << i)) != 0);
+        }
+        return this;
     }
 
     @Override
     public long getBits(int numBits) {
-        return 0L;
+        if (limit - position < numBits) {
+            throw new BufferUnderflowException();
+        }
+
+        long l = 0;
+
+        for (int i = 0; i < numBits; i++) {
+            if (bits.get(position++)) {
+                l |= (1 << i);
+            }
+        }
+
+        return l;
     }
 
     /**

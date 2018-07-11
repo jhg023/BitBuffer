@@ -31,7 +31,7 @@ public interface BitBuffer {
      */
     int MAX_LONG_BITS = log2(Long.SIZE) - 1;
 
-    void putBits(long value, int numBits);
+    BitBuffer putBits(long value, int numBits);
 
     long getBits(int numBits);
 
@@ -45,7 +45,7 @@ public interface BitBuffer {
      *      convenience of method-chaining.
      */
     default BitBuffer putByte(int b) {
-        return putBits(b, false, Byte.SIZE, -1, Sign.EITHER);
+        return putBits(b, Byte.SIZE);
     }
 
     /**
@@ -58,7 +58,7 @@ public interface BitBuffer {
      *      convenience of method-chaining.
      */
     default BitBuffer putInt(int i) {
-        return putBits(i, false, Integer.SIZE, -1, Sign.EITHER);
+        return putBits(i, Integer.SIZE);
     }
 
     /**
@@ -91,7 +91,7 @@ public interface BitBuffer {
      *      convenience of method-chaining.
      */
     default BitBuffer putLong(long l) {
-        return putBits(l, false, Long.SIZE, -1, Sign.EITHER);
+        return putBits(l, Long.SIZE);
     }
 
     /**
@@ -124,7 +124,7 @@ public interface BitBuffer {
      *      convenience of method-chaining.
      */
     default BitBuffer putShort(int s) {
-        return putBits(s, false, Short.SIZE, -1, Sign.EITHER);
+        return putBits(s, Short.SIZE);
     }
 
     /**
@@ -166,7 +166,7 @@ public interface BitBuffer {
      *      A {@code byte}.
      */
     default byte getByte() {
-        return readBits(false, Byte.SIZE, null).byteValue();
+        return (byte) getBits(Byte.SIZE);
     }
 
     /**
@@ -176,7 +176,7 @@ public interface BitBuffer {
      *      An {@code int}.
      */
     default int getInt() {
-        return readBits(false, Integer.SIZE, null).intValue();
+        return (int) getBits(Integer.SIZE);
     }
 
     /**
@@ -205,7 +205,7 @@ public interface BitBuffer {
      *      A {@code long}.
      */
     default long getLong() {
-        return readBits(false, Long.SIZE, null).intValue();
+        return getBits(Long.SIZE);
     }
 
     /**
@@ -234,7 +234,7 @@ public interface BitBuffer {
      *      A {@code short}.
      */
     default short getShort() {
-        return readBits(false, Short.SIZE, null).shortValue();
+        return (short) getBits(Short.SIZE);
     }
 
     /**

@@ -2,12 +2,9 @@ package bitbuffer.impl;
 
 import bitbuffer.BitBuffer;
 import bitbuffer.Sign;
-
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
-import java.nio.LongBuffer;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class DirectBitBuffer implements BitBuffer {
@@ -15,8 +12,8 @@ public final class DirectBitBuffer implements BitBuffer {
     private static final long[] MASKS = new long[Long.SIZE];
 
     static {
-        for (int i = 0; i < MASKS.length - 1; i++) {
-        	MASKS[i] = BigInteger.TWO.pow(i + 1).subtract(BigInteger.ONE).longValue();
+        for (int i = 0; i < MASKS.length; i++) {
+        	MASKS[i] = BigInteger.TWO.pow(i).subtract(BigInteger.ONE).longValue();
         }
 		MASKS[MASKS.length - 1] = -1L;
     }
@@ -33,89 +30,79 @@ public final class DirectBitBuffer implements BitBuffer {
     private long buffer;
 
     public static void main(String[] args) {
-        int n = 10;
-        
-        DirectBitBuffer buffer = new DirectBitBuffer(ByteBuffer.allocate(n * 8));
-       
+        int n = 10_000_000;
+
+        DirectBitBuffer buffer = new DirectBitBuffer(((n * 4) + 7) / 8 * 8);
+
         int[] bits = new int[n];
-        long[] numbers = new long[n];
+        int[] numbers = new int[n];
 
         for (int i = 0; i < n; i++) {
-        	long number = ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE);
-            //long number = i == 0 ? 1681186488542789119L : 5121553840518974009L;
-			//long number = i == 0 ? 7341723592777308505L : 2172702275061705423L;
-			bits[i] = Long.SIZE - Long.numberOfLeadingZeros(number);
-			numbers[i] = number;
-            System.out.println(number + "  " + (Long.SIZE - Long.numberOfLeadingZeros(number)));
+            int number = ThreadLocalRandom.current().nextInt();
+            //int number = i == 0 ? -13580391 : 1383985879;
+            bits[i] = Integer.SIZE - Integer.numberOfLeadingZeros(number);
+            numbers[i] = number;
+            //System.out.println(number + "  " + (Long.SIZE - Long.numberOfLeadingZeros(number)));
             buffer.putBits(number, bits[i]);
         }
 
         buffer.flip();
-	
-		System.out.println(Arrays.toString(buffer.toByteArray()));
+
+        //System.out.println(Arrays.toString(buffer.toByteArray()));
 
         for (int i = 0; i < n; i++) {
-        	long number = buffer.getBits(bits[i]);
-         
-        	System.out.println("Read: " + number);
-        	
-        	if (numbers[i] != number) {
-        		throw new IllegalStateException(numbers[i] + " " + number);
-			}
+            long number = (int) buffer.getBits(bits[i]);
+
+            //System.out.println("Read: " + number);
+
+            if (numbers[i] != number) {
+                throw new IllegalStateException(numbers[i] + " " + number);
+            }
         }
     }
 
-    public DirectBitBuffer(ByteBuffer bytes) {
-        Objects.requireNonNull(bytes);
-        this.bytes = bytes;
+    public DirectBitBuffer(int bytes) {
+        this.bytes = ByteBuffer.allocate(bytes);
     }
 
     @Override
-    public void putBits(long value, int numBits) {
-		buffer |= (value << bit);
-		if ((bit += numBits) >= Long.SIZE) {
-			bytes.putLong(buffer);
-			buffer = value >> (Long.SIZE - (bit -= numBits));
+    public BitBuffer putBits(long value, int numBits) {
+		int bitsWritten = Math.min(Long.SIZE - bit, numBits);
+        buffer |= ((value & MASKS[bitsWritten]) << bit);
+		if ((bit += bitsWritten) == Long.SIZE) {
+            bytes.putLong(buffer);
+            buffer = (value >> bitsWritten) & MASKS[bit = numBits - bitsWritten];
 		}
+		return this;
     }
 
-    public void flip() {
-    	bytes.putLong(buffer);
+    public BitBuffer flip() {
+        if (bit != 0) {
+            bytes.putLong(buffer);
+            bit = 0;
+        }
     	buffer = bytes.flip().getLong();
-    	bit = 0;
+    	return this;
 	}
     
     @Override
     public long getBits(int numBits) {
-    	long value = (buffer >>> bit) & MASKS[numBits - 1];
-		if ((bit += numBits) >= Long.SIZE) {
-			value |= ((buffer = bytes.getLong()) & MASKS[bit -= numBits]) << (Long.SIZE - bit);
+        int bitsRead = Math.min(Long.SIZE - bit, numBits);
+    	long value = (buffer >> bit) & MASKS[bitsRead];
+    	if ((bit += bitsRead) == Long.SIZE) {
+		    if (!bytes.hasRemaining()) {
+		        return value;
+            }
+		    buffer = bytes.getLong();
+		    if ((bit = numBits - bitsRead) != 0) {
+                value |= (buffer & MASKS[bit]) << bitsRead;
+            }
 		}
 		return value;
     }
 
     @Override
     public BitBuffer putBits(long value, boolean compressed, int size, int maxBits, Sign sign) {
-        /*int numBits;
-
-        if (compressed) {
-            numBits = size;
-        } else {
-            numBits = size;
-        }
-
-        // If the current byte to write to isn't empty and isn't full...
-        while (numBits > 0) {
-            int remainingBits = Byte.SIZE - writeBitIndex;
-
-            bytes[writeIndex++] |= ((value & MASKS[remainingBits - 1]) << writeBitIndex);
-
-            numBits -= remainingBits;
-            value >>>= remainingBits;
-
-            writeBitIndex = (writeBitIndex + remainingBits) % Byte.SIZE;
-        }*/
-
         return this;
     }
 
