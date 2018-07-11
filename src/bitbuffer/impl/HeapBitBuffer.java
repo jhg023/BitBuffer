@@ -1,7 +1,7 @@
 package bitbuffer.impl;
 
 import bitbuffer.BitBuffer;
-import bitbuffer.Sign;
+
 import java.io.Serializable;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
@@ -14,7 +14,7 @@ import java.util.BitSet;
  * @author Jacob G.
  * @since January 4, 2018
  */
-public class HeapBitBuffer implements BitBuffer, Serializable {
+public class HeapBitBuffer extends BitBuffer implements Serializable {
 
     /**
      * Essentially this {@link BitBuffer}'s reader

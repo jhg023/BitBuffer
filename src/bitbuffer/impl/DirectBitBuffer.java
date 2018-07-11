@@ -1,13 +1,13 @@
 package bitbuffer.impl;
 
 import bitbuffer.BitBuffer;
-import bitbuffer.Sign;
+
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
-public final class DirectBitBuffer implements BitBuffer {
+public final class DirectBitBuffer extends BitBuffer {
 
     private static final long[] MASKS = new long[Long.SIZE];
 

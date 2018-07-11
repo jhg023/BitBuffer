@@ -1,7 +1,6 @@
 package bitbuffer.impl;
 
 import bitbuffer.BitBuffer;
-import bitbuffer.Sign;
 
 import java.nio.BufferUnderflowException;
 import java.util.BitSet;
