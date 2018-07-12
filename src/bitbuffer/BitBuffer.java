@@ -1,6 +1,9 @@
 package bitbuffer;
 
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
+import java.text.NumberFormat;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * A data-type similar to {@link ByteBuffer}, but reads/writes bits rather than {@code byte}s to
@@ -9,56 +12,148 @@ import java.nio.ByteBuffer;
  * @author Jacob G.
  * @since February 24, 2018
  */
-public abstract class BitBuffer {
-	
+public final class BitBuffer {
+
+    public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+
+        int n = 2;
+
+        int[] numbers = new int[n];
+
+        //BitBuffer buffer = new HeapBitBuffer(n * 4 * 8);
+        BitBuffer buffer = BitBuffer.allocate(n * 8);
+
+        for (int i = 0; i < n; i++) {
+            int num = ThreadLocalRandom.current().nextInt();
+
+            numbers[i] = num;
+
+            //System.out.println((i + 1) + ". " + num + " " + (Long.SIZE - Long.numberOfLeadingZeros(num)));
+
+            buffer.putCompressedInt(num, Sign.EITHER);
+            //buffer.putInt(num);
+        }
+
+        byte[] array = buffer.bytes.array();
+
+        System.out.println("Compressed: " + NumberFormat.getInstance().format(array.length) + " Bytes");
+        System.out.println("Uncompressed: " + NumberFormat.getInstance().format(n * 4) + " Bytes");
+        System.out.println("Compressed " + String.format("%.8f", 100 - (array.length / (n * 4D) * 100)) + "% (Higher is better)");
+        System.out.println("Bits/Integer: " + array.length * 8D / n);
+        //System.out.println(Arrays.toString(array));
+
+        buffer.flip();
+
+        for (int i = 0; i < n; i++) {
+            int num = buffer.getCompressedInt(Sign.EITHER);
+            //int num = buffer.getInt();
+
+            //System.out.println((i + 1) + ". " + num);
+
+            if (numbers[i] != num) {
+                throw new RuntimeException(numbers[i] + " " + num);
+            }
+        }
+
+        System.out.println("Program ran in " + (System.currentTimeMillis() - start) + " ms");
+    }
+
 	public enum Sign {
 		POSITIVE, NEGATIVE, EITHER
 	}
+
+    private static final long[] MASKS = new long[Long.SIZE];
+
+    static {
+        for (int i = 0; i < MASKS.length; i++) {
+            MASKS[i] = BigInteger.TWO.pow(i).subtract(BigInteger.ONE).longValue();
+        }
+        MASKS[MASKS.length - 1] = -1L;
+    }
 	
     /**
      * The maximum number of bits required to encode the bit-length
      * of a {@code short}.
      */
-    private int MAX_SHORT_BITS = log2(Short.SIZE) - 1;
+    private static final int MAX_SHORT_BITS = log2(Short.SIZE) - 1;
 
     /**
      * The maximum number of bits required to encode the bit-length
      * of an {@code int}.
      */
-    private int MAX_INT_BITS = log2(Integer.SIZE) - 1;
+    private static final int MAX_INT_BITS = log2(Integer.SIZE) - 1;
 
     /**
      * The maximum number of bits required to encode the bit-length
      * of a {@code long}.
      */
-    private int MAX_LONG_BITS = log2(Long.SIZE) - 1;
+    private static final int MAX_LONG_BITS = log2(Long.SIZE) - 1;
 
-    public abstract BitBuffer putBits(long value, int numBits);
+    private final ByteBuffer bytes;
 
-    public abstract long getBits(int numBits);
+    private int bit;
+
+    private long buffer;
+
+    private BitBuffer(ByteBuffer bytes) {
+        this.bytes = bytes;
+    }
+
+    public static BitBuffer allocate(int capacity) {
+        return new BitBuffer(ByteBuffer.allocate((capacity + 7) / 8 * 8));
+    }
+
+    public static BitBuffer allocateDirect(int capacity) {
+        return new BitBuffer(ByteBuffer.allocateDirect((capacity + 7) / 8 * 8));
+    }
+
+    public BitBuffer putBits(long value, int numBits) {
+        int bitsWritten = Math.min(Long.SIZE - bit, numBits);
+        buffer |= ((value & MASKS[bitsWritten]) << bit);
+        if ((bit += bitsWritten) == Long.SIZE) {
+            bytes.putLong(buffer);
+            buffer = (value >> bitsWritten) & MASKS[bit = numBits - bitsWritten];
+        }
+        return this;
+    }
+
+    public BitBuffer flip() {
+        if (bit != 0) {
+            bytes.putLong(buffer);
+            bit = 0;
+        }
+        buffer = bytes.flip().getLong();
+        return this;
+    }
+
+    public long getBits(int numBits) {
+        int bitsRead = Math.min(Long.SIZE - bit, numBits);
+        long value = (buffer >> bit) & MASKS[bitsRead];
+        if ((bit += bitsRead) == Long.SIZE) {
+            if (!bytes.hasRemaining()) {
+                return value;
+            }
+            buffer = bytes.getLong();
+            if ((bit = numBits - bitsRead) != 0) {
+                value |= (buffer & MASKS[bit]) << bitsRead;
+            }
+        }
+        return value;
+    }
 	
 	/**
 	 * Appends an uncompressed {@code boolean} to this {@link BitBuffer}.
 	 *
 	 * @param b
 	 *      The {@code boolean} to append.
+     * @param compressed
+     *      Whether or not the {@code boolean} should be compressed.
 	 * @return
 	 *      This {@link BitBuffer} to allow for the convenience of method-chaining.
 	 */
-    public final BitBuffer putBoolean(boolean b) {
-    	return putByte(b ? 1 : 0);
-	}
-	
-	/**
-	 * Appends a compressed {@code boolean} to this {@link BitBuffer}.
-	 *
-	 * @param b
-	 *      The {@code boolean} to append.
-	 * @return
-	 *      This {@link BitBuffer} to allow for the convenience of method-chaining.
-	 */
-	public final BitBuffer putCompressedBoolean(boolean b) {
-		return putBits(b ? 1 : 0, 1);
+    public BitBuffer putBoolean(boolean b, boolean compressed) {
+    	return compressed ? putBits(b ? 1 : 0, 1) : putByte(b ? 1 : 0);
 	}
     
     /**
@@ -70,7 +165,7 @@ public abstract class BitBuffer {
      *      This {@link BitBuffer} to allow for the
      *      convenience of method-chaining.
      */
-    public final BitBuffer putByte(int b) {
+    public BitBuffer putByte(int b) {
         return putBits(b, Byte.SIZE);
     }
 
@@ -83,7 +178,7 @@ public abstract class BitBuffer {
      *      This {@link BitBuffer} to allow for the
      *      convenience of method-chaining.
      */
-    public final BitBuffer putInt(int i) {
+    public BitBuffer putInt(int i) {
         return putBits(i, Integer.SIZE);
     }
 
@@ -103,7 +198,38 @@ public abstract class BitBuffer {
      *      This {@link BitBuffer} to allow for the convenience of method-chaining.
      */
     public BitBuffer putCompressedInt(int i, Sign sign) {
-        return putBits(i, true, Integer.SIZE, MAX_INT_BITS, sign);
+        boolean shouldNegate = i < 0;
+
+        if (shouldNegate) {
+            i = -i;
+        }
+
+        int numBits = Long.SIZE - Long.numberOfLeadingZeros(i);
+
+        if (numBits >= Integer.SIZE - MAX_INT_BITS) {
+            putBoolean(false, true);
+
+            if (sign == Sign.EITHER) {
+                putBoolean(shouldNegate, true);
+            }
+
+            putBits(i, Integer.SIZE - 1);
+        } else {
+            putBoolean(true, true);
+
+            if (sign == Sign.EITHER) {
+                putBoolean(shouldNegate, true);
+            }
+
+            putBits(numBits >> 1, MAX_INT_BITS);
+            putBits(i, numBits);
+
+            if ((numBits & 1) == 0) {
+                putBoolean(false, true);
+            }
+        }
+
+        return this;
     }
 
     /**
@@ -135,7 +261,7 @@ public abstract class BitBuffer {
      *      convenience of method-chaining.
      */
     public BitBuffer putCompressedLong(long l, Sign sign) {
-        return putBits(l, true, Long.SIZE, MAX_LONG_BITS, sign);
+        return this;
     }
 
     /**
@@ -166,21 +292,9 @@ public abstract class BitBuffer {
      *      This {@link BitBuffer} to allow for the convenience of method-chaining.
      */
     public BitBuffer putCompressedShort(int s, Sign sign) {
-        return putBits(s, true, Short.SIZE, MAX_SHORT_BITS, sign);
+        return this;
     }
 
-    public abstract BitBuffer putBits(long value, boolean compressed, int size, int maxSize, Sign sign);
-
-    public abstract Number readBits(boolean compressed, int size, Sign sign);
-
-    /**
-     * Converts this {@link BitBuffer}'s data to a byte array.
-     *
-     * @return
-     *      A {@code byte[]}.
-     */
-    public abstract byte[] toByteArray();
-	
 	/**
 	 * Gets an uncompressed {@code boolean} from this {@link BitBuffer}.
 	 *
@@ -229,7 +343,23 @@ public abstract class BitBuffer {
      *      An {@code int}.
      */
     public int getCompressedInt(Sign sign) {
-        return readBits(true, Integer.SIZE, sign).intValue();
+        int value = 0;
+
+        boolean shouldNegate;
+
+        if (getBoolean(true)) {
+            shouldNegate = sign == Sign.EITHER && getBoolean(true);
+
+            int numBits = (int) getBits(MAX_INT_BITS);
+
+            value = (int) getBits((numBits << 1) + 1);
+        } else {
+            shouldNegate = sign == Sign.EITHER && getBoolean(true);
+
+            value = (int) getBits(Integer.SIZE - 1);
+        }
+
+        return shouldNegate || sign == Sign.NEGATIVE ? -value : value;
     }
 
     /**
@@ -258,7 +388,7 @@ public abstract class BitBuffer {
      *      A {@code long}.
      */
     public long getCompressedLong(Sign sign) {
-        return readBits(true, Long.SIZE, sign).longValue();
+        return 0;
     }
 
     /**
@@ -287,7 +417,7 @@ public abstract class BitBuffer {
      *      A {@code long}.
      */
     public short getCompressedShort(Sign sign) {
-        return readBits(true, Short.SIZE, sign).shortValue();
+        return 0;
     }
 
     /**
