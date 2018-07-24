@@ -80,18 +80,12 @@ public final class BitBuffer {
      * @return This {@link BitBuffer} to allow for the convenience of method-chaining.
      */
     public BitBuffer putBits(long value, int numBits) {
-        buffer |= value << bit;
-        if ((bit += numBits) >= 64) {
-            bytes.putLong(buffer);
-            buffer = value >>> numBits - (bit -= 64);
-        }
-
-        /*int bitsWritten = Math.min(Long.SIZE - bit, numBits);
+        int bitsWritten = Math.min(Long.SIZE - bit, numBits);
         buffer |= ((value & MASKS[bitsWritten]) << bit);
         if ((bit += bitsWritten) == Long.SIZE) {
             bytes.putLong(buffer);
             buffer = (value >> bitsWritten) & MASKS[bit = numBits - bitsWritten];
-        }*/
+        }
         return this;
     }
 
@@ -169,16 +163,11 @@ public final class BitBuffer {
      * @return This {@link BitBuffer} to allow for the convenience of method-chaining.
      */
     public BitBuffer flip() {
-        /*if (bit != 0) {
+        if (bit != 0) {
             bytes.putLong(buffer);
             bit = 0;
         }
-        buffer = bytes.flip().getLong();*/
-
-        bytes.putLong(buffer);
-        bytes.flip();
-        buffer = bytes.getLong();
-        bit = 0;
+        buffer = bytes.flip().getLong();
         return this;
     }
 
@@ -189,11 +178,7 @@ public final class BitBuffer {
      * @return A {@code long} value at the {@link BitBuffer}'s current position.
      */
     public long getBits(int numBits) {
-        return ((bit += numBits) >= 64 ? (buffer >>> bit - numBits)
-                | (buffer = bytes.getLong()) << 64 - (bit -= 64)
-                : buffer << 64 - bit) >>> 64 - numBits;
-
-        /*int bitsRead = Math.min(Long.SIZE - bit, numBits);
+        int bitsRead = Math.min(Long.SIZE - bit, numBits);
         long value = (buffer >> bit) & MASKS[bitsRead];
         if ((bit += bitsRead) == Long.SIZE) {
             if (!bytes.hasRemaining()) {
@@ -204,7 +189,7 @@ public final class BitBuffer {
                 value |= (buffer & MASKS[bit]) << bitsRead;
             }
         }
-        return value;*/
+        return value;
     }
 
     /**
