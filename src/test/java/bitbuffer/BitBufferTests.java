@@ -2,6 +2,7 @@ package bitbuffer;
 
 import java.nio.ByteOrder;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -50,6 +51,27 @@ final class BitBufferTests {
     void testReadLongLittleEndian(long value) {
         Assertions.assertEquals(value, BitBuffer.allocate(Long.BYTES).putLong(value,
                 ByteOrder.LITTLE_ENDIAN).flip().getLong(ByteOrder.LITTLE_ENDIAN));
+    }
+    
+    /**
+     * This method tests whether the {@code long} cache is cleared properly.
+     */
+    @Test
+    void testDoubleFlip() {
+        var buffer = BitBuffer.allocate(Long.BYTES);
+        buffer.putInt(42).putInt(26).flip();
+        Assertions.assertEquals(buffer.getInt(), 42); // Position: 4   Limit: 8
+        buffer.flip(); // Position: 0   Limit: 4
+        buffer.flip();
+        Assertions.assertEquals(buffer.getInt(), 26);
+    }
+    
+    @Test
+    void testPutData() {
+        var buffer = BitBuffer.allocate(Long.BYTES);
+        buffer.putBoolean(true, true).putLong(-1);
+        System.out.println(Long.toBinaryString(buffer.cache));
+        System.out.println(buffer.buffer.flip().getLong());
     }
     
 }

@@ -1,0 +1,3 @@
+module BitBuffer {
+    exports bitbuffer;
+}
