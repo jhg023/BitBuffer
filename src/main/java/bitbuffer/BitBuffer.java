@@ -34,9 +34,9 @@ public final class BitBuffer {
     public final ByteBuffer buffer;
 
     /**
-     * The bitIndex-index within {@code cache}.
+     * The number of bits available within {@code cache}.
      */
-    public int bitIndex;
+    public int remainingBits = Long.SIZE;
 
     /**
      * The <i>cache</i> used when writing and reading bits.
@@ -60,7 +60,7 @@ public final class BitBuffer {
      * @return a {@link BitBuffer} allocated with the specified capacity.
      */
     private static BitBuffer allocate(int capacity, IntFunction<ByteBuffer> function) {
-        return new BitBuffer(function.apply((capacity + 7) / 8 * 8));
+        return new BitBuffer(function.apply((capacity + 7) / 8 * 8 + Long.BYTES));
     }
     
     /**
@@ -94,19 +94,16 @@ public final class BitBuffer {
      * @return this {@link BitBuffer} to allow for the convenience of method-chaining.
      */
     private BitBuffer putBits(long value, int numBits) {
-        int totalBits = bitIndex + numBits;
-    
         // If the value that we're writing is too large to be placed entirely in the cache, then we need to place as
-        // much as we can in the cache (the most significant bits), flush the cache to the backing ByteBuffer, and
+        // much as we can in the cache (the least significant bits), flush the cache to the backing ByteBuffer, and
         // place the rest in the cache.
-        if (totalBits > Long.SIZE) {
-            int difference = Long.SIZE - bitIndex;
-            cache |= (value & (MASKS[difference] << bitIndex));
-            buffer.putLong(cache);
-            cache = value & MASKS[bitIndex = (Long.SIZE - difference)];
+        if (remainingBits < numBits) {
+            int difference = numBits - remainingBits;
+            buffer.putLong(cache | (value << difference));
+            cache = (value >> (Long.SIZE - difference)) & MASKS[remainingBits = difference];
         } else {
-            cache |= value << bitIndex;
-            bitIndex += numBits;
+            cache |= ((value & MASKS[numBits]) << (Long.SIZE - remainingBits));
+            remainingBits -= numBits;
         }
         
         return this;
@@ -225,7 +222,8 @@ public final class BitBuffer {
      * @return this {@link BitBuffer} to allow for the convenience of method-chaining.
      */
     public BitBuffer flip() {
-        
+        buffer.putLong(cache).clear();
+        remainingBits = 0;
         return this;
     }
 
@@ -236,7 +234,22 @@ public final class BitBuffer {
      * @return a {@code long} value at the {@link BitBuffer}'s current position.
      */
     private long getBits(int numBits) {
-        return 0;
+        var value = 0L;
+        
+        if (remainingBits < numBits) {
+            value = cache & MASKS[remainingBits];
+            cache = buffer.getLong();
+            int difference = numBits - remainingBits;
+            value |= (cache & MASKS[difference]) << remainingBits;
+            cache >>= difference;
+            remainingBits = Long.SIZE - difference;
+        } else {
+            value = cache & MASKS[numBits];
+            cache >>= numBits;
+            remainingBits -= numBits;
+        }
+        
+        return value;
     }
 
     /**
@@ -372,11 +385,7 @@ public final class BitBuffer {
      * @return A {@link ByteBuffer}.
      */
     public ByteBuffer toByteBuffer() {
-        if (bitIndex != 0) {
-            buffer.putLong(cache);
-        }
-        
-        return buffer.flip();
+        return buffer.putLong(cache).clear();
     }
 
 }
