@@ -6,8 +6,8 @@ import java.nio.ByteOrder;
 import java.util.function.IntFunction;
 
 /**
- * A data type similar to {@link ByteBuffer}, but can read/write bits as well as {@code byte}s to reduce bandwidth,
- * increase throughput, and allow for optional compression.
+ * A data type similar to {@link ByteBuffer}, but can read/write bits as well as {@code byte}s to increase
+ * throughput, and allow for optional compression.
  *
  * @author Jacob G.
  * @version February 24, 2018
@@ -15,7 +15,7 @@ import java.util.function.IntFunction;
 public final class BitBuffer {
 
     /**
-     * The bitIndex-mask used when writing/reading bits.
+     * The mask used when writing/reading bits.
      */
     private static final long[] MASKS = new long[Long.SIZE + 1];
 
@@ -49,7 +49,7 @@ public final class BitBuffer {
      * @param buffer the backing {@link ByteBuffer}.
      */
     private BitBuffer(ByteBuffer buffer) {
-        this.buffer = buffer;
+        this.buffer = buffer.order(ByteOrder.LITTLE_ENDIAN);
     }
     
     /**
@@ -120,15 +120,40 @@ public final class BitBuffer {
     public BitBuffer putBoolean(boolean b, boolean compressed) {
         return compressed ? putBits(b ? 1 : 0, 1) : putByte(b ? 1 : 0);
     }
-
+    
+    /**
+     * Writes a value to this {@link BitBuffer} using {@link Byte#SIZE} bits.
+     *
+     * @param b the {@code byte} to write.
+     * @return this {@link BitBuffer} to allow for the convenience of method-chaining.
+     */
+    public BitBuffer putByte(byte b) {
+        return putBits(b, Byte.SIZE);
+    }
+    
     /**
      * Writes a value to this {@link BitBuffer} using {@link Byte#SIZE} bits.
      *
      * @param b the {@code byte} to write as an {@code int} for ease-of-use, but internally down-casted to a {@code byte}.
      * @return this {@link BitBuffer} to allow for the convenience of method-chaining.
+     * @see #putByte(byte)
      */
     public BitBuffer putByte(int b) {
-        return putBits((byte) b, Byte.SIZE);
+        return putByte((byte) b);
+    }
+    
+    /**
+     * Writes an array of {@code byte}s to this {@link BitBuffer} using {@link Byte#SIZE} bits for each {@code byte}.
+     *
+     * @param src the array of {@code byte}s to write.
+     * @return this {@link BitBuffer} to allow for the convenience of method-chaining.
+     */
+    public BitBuffer putBytes(byte[] src) {
+        for (byte b : src) {
+            putByte(b);
+        }
+        
+        return this;
     }
     
     /**
@@ -150,6 +175,50 @@ public final class BitBuffer {
      */
     public BitBuffer putChar(char c, ByteOrder order) {
         return putBits(order == ByteOrder.LITTLE_ENDIAN ? Character.reverseBytes(c) : c, Character.SIZE);
+    }
+    
+    /**
+     * Writes a value with {@link ByteOrder#BIG_ENDIAN} order to this {@link BitBuffer} using {@link Double#SIZE} bits.
+     *
+     * @param d the {@code double} to write.
+     * @return this {@link BitBuffer} to allow for the convenience of method-chaining.
+     * @see #putDouble(double, ByteOrder)
+     */
+    public BitBuffer putDouble(double d) {
+        return putDouble(d, ByteOrder.BIG_ENDIAN);
+    }
+    
+    /**
+     * Writes a value with the specified {@link ByteOrder} to this {@link BitBuffer} using {@link Double#SIZE} bits.
+     *
+     * @param d the {@code double} to write.
+     * @return this {@link BitBuffer} to allow for the convenience of method-chaining.
+     * @see #putLong(long, ByteOrder)
+     */
+    public BitBuffer putDouble(double d, ByteOrder order) {
+        return putLong(Double.doubleToRawLongBits(d), order);
+    }
+    
+    /**
+     * Writes a value with {@link ByteOrder#BIG_ENDIAN} order to this {@link BitBuffer} using {@link Float#SIZE} bits.
+     *
+     * @param f the {@code float} to write.
+     * @return this {@link BitBuffer} to allow for the convenience of method-chaining.
+     * @see #putFloat(float, ByteOrder)
+     */
+    public BitBuffer putFloat(float f) {
+        return putFloat(f, ByteOrder.BIG_ENDIAN);
+    }
+    
+    /**
+     * Writes a value with the specified {@link ByteOrder} to this {@link BitBuffer} using {@link Float#SIZE} bits.
+     *
+     * @param f the {@code float} to write.
+     * @return this {@link BitBuffer} to allow for the convenience of method-chaining.
+     * @see #putInt(int, ByteOrder)
+     */
+    public BitBuffer putFloat(float f, ByteOrder order) {
+        return putInt(Float.floatToRawIntBits(f), order);
     }
     
     /**
@@ -222,7 +291,10 @@ public final class BitBuffer {
      * @return this {@link BitBuffer} to allow for the convenience of method-chaining.
      */
     public BitBuffer flip() {
+        // Put the cache into the buffer and set the position to zero.
         buffer.putLong(cache).clear();
+        
+        // Set remainingBits to 0 so that, on the next call to getBits, the cache will be reset.
         remainingBits = 0;
         return this;
     }
@@ -273,6 +345,22 @@ public final class BitBuffer {
     }
     
     /**
+     * Reads the specified amount of {@code byte}s from this {@link BitBuffer} into an array of {@code byte}s.
+     *
+     * @param n the number of {@code byte}s to read.
+     * @return an array of {@code byte}s of length {@code n} that contains {@code byte}s read from this {@link BitBuffer}.
+     */
+    public byte[] getBytes(int n) {
+        var array = new byte[n];
+        
+        for (int i = 0; i < array.length; i++) {
+            array[i] = getByte();
+        }
+        
+        return array;
+    }
+    
+    /**
      * Reads {@link Character#SIZE} bits from this {@link BitBuffer} and composes a {@code char} with
      * {@link ByteOrder#BIG_ENDIAN} order.
      *
@@ -292,6 +380,50 @@ public final class BitBuffer {
     public char getChar(ByteOrder order) {
         var value = (char) getBits(Integer.SIZE);
         return order == ByteOrder.LITTLE_ENDIAN ? Character.reverseBytes(value) : value;
+    }
+    
+    /**
+     * Reads {@link Double#SIZE} bits from this {@link BitBuffer} and composes a {@code double} with
+     * {@link ByteOrder#BIG_ENDIAN} order.
+     *
+     * @return A {@code double}.
+     * @see #getDouble(ByteOrder)
+     */
+    public double getDouble() {
+        return getDouble(ByteOrder.BIG_ENDIAN);
+    }
+    
+    /**
+     * Reads {@link Double#SIZE} bits from this {@link BitBuffer} and composes a {@code double} with the specified
+     * {@link ByteOrder}.
+     *
+     * @return A {@code double}.
+     * @see #getLong(ByteOrder)
+     */
+    public double getDouble(ByteOrder order) {
+        return Double.longBitsToDouble(getLong(order));
+    }
+    
+    /**
+     * Reads {@link Float#SIZE} bits from this {@link BitBuffer} and composes a {@code float} with
+     * {@link ByteOrder#BIG_ENDIAN} order.
+     *
+     * @return A {@code float}.
+     * @see #getFloat(ByteOrder)
+     */
+    public float getFloat() {
+        return getFloat(ByteOrder.BIG_ENDIAN);
+    }
+    
+    /**
+     * Reads {@link Float#SIZE} bits from this {@link BitBuffer} and composes a {@code float} with the specified
+     * {@link ByteOrder}.
+     *
+     * @return A {@code float}.
+     * @see #getFloat(ByteOrder)
+     */
+    public float getFloat(ByteOrder order) {
+        return Float.intBitsToFloat(getInt(order));
     }
     
     /**

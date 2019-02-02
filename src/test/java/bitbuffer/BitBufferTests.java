@@ -17,6 +17,22 @@ final class BitBufferTests {
     }
     
     @ParameterizedTest
+    @ValueSource(strings = {"true", "false"})
+    void testReadBoolean(String value) {
+        boolean b = Boolean.parseBoolean(value);
+        Assertions.assertEquals(b, buffer.putBoolean(b, false)
+                .flip().getBoolean(false));
+    }
+    
+    @ParameterizedTest
+    @ValueSource(strings = {"true", "false"})
+    void testReadCompressedBoolean(String value) {
+        boolean b = Boolean.parseBoolean(value);
+        Assertions.assertEquals(b, buffer.putBoolean(b, true)
+                .flip().getBoolean(true));
+    }
+    
+    @ParameterizedTest
     @ValueSource(bytes = {123, 0, -123})
     void testReadByte(byte value) {
         Assertions.assertEquals(value, buffer.putByte(value).flip().getByte());
@@ -49,6 +65,19 @@ final class BitBufferTests {
     }
     
     @ParameterizedTest
+    @ValueSource(floats = {123456,5F, 0.5F, -123456.5F})
+    void testReadFloatBigEndian(float value) {
+        Assertions.assertEquals(value, buffer.putFloat(value).flip().getFloat());
+    }
+    
+    @ParameterizedTest
+    @ValueSource(floats = {123456,5F, 0.5F, -123456.5F})
+    void testReadFloatLittleEndian(float value) {
+        Assertions.assertEquals(value, buffer.putFloat(value, ByteOrder.LITTLE_ENDIAN)
+                .flip().getFloat(ByteOrder.LITTLE_ENDIAN));
+    }
+    
+    @ParameterizedTest
     @ValueSource(longs = {12345678912L, 0L, -12345678912L})
     void testReadLongBigEndian(long value) {
         Assertions.assertEquals(value, buffer.putLong(value).flip().getLong());
@@ -61,6 +90,19 @@ final class BitBufferTests {
                 .flip().getLong(ByteOrder.LITTLE_ENDIAN));
     }
     
+    @ParameterizedTest
+    @ValueSource(doubles = {123456,5, 0.5, -123456.5})
+    void testReadDoubleBigEndian(double value) {
+        Assertions.assertEquals(value, buffer.putDouble(value).flip().getDouble());
+    }
+    
+    @ParameterizedTest
+    @ValueSource(doubles = {123456,5, 0.5, -123456.5})
+    void testReadDoubleLittleEndian(double value) {
+        Assertions.assertEquals(value, buffer.putDouble(value, ByteOrder.LITTLE_ENDIAN)
+                .flip().getDouble(ByteOrder.LITTLE_ENDIAN));
+    }
+    
     /**
      * This method tests whether the {@code long} cache is cleared properly.
      */
@@ -71,6 +113,12 @@ final class BitBufferTests {
         buffer.flip();
         buffer.flip();
         Assertions.assertEquals(26, buffer.getInt());
+    }
+    
+    @Test
+    void testByteBuffer() {
+        buffer.toByteBuffer().putShort((short) 1234);
+        Assertions.assertEquals(1234, buffer.flip().getShort());
     }
     
 }
