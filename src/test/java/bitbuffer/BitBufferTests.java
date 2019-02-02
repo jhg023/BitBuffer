@@ -38,6 +38,17 @@ final class BitBufferTests {
         Assertions.assertEquals(value, buffer.putByte(value).flip().getByte());
     }
     
+    @Test
+    void testReadBytes() {
+        byte[] length = {12, 0};
+        byte[] text = {72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33};
+        byte[] id = {-46, 4, 0, 0, 0, 0, 0, 0};
+        
+        BitBuffer buffer = BitBuffer.allocate(24);
+        
+        buffer.putBytes(length).putBytes(text).putBytes(id);
+    }
+    
     @ParameterizedTest
     @ValueSource(shorts = {1234, 0, -1234})
     void testReadShortBigEndian(short value) {

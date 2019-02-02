@@ -100,7 +100,7 @@ public final class BitBuffer {
         if (remainingBits < numBits) {
             int difference = numBits - remainingBits;
             buffer.putLong(cache | (value << difference));
-            cache = (value >> (Long.SIZE - difference)) & MASKS[remainingBits = difference];
+            cache = (value >> (Long.SIZE - difference)) & MASKS[remainingBits = Long.SIZE - difference];
         } else {
             cache |= ((value & MASKS[numBits]) << (Long.SIZE - remainingBits));
             remainingBits -= numBits;
