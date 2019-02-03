@@ -115,6 +115,13 @@ final class BitBufferTests {
                 .flip().getDouble(ByteOrder.LITTLE_ENDIAN));
     }
     
+    @ParameterizedTest
+    @ValueSource(longs = {Long.MIN_VALUE, -10L, -1L, 0L, 1L, 10L, Long.MAX_VALUE})
+    void testReadValue(long value) {
+        Assertions.assertEquals(value, buffer.putValue(value, Long.MAX_VALUE)
+                .flip().getValue(Long.MAX_VALUE));
+    }
+    
     /**
      * This method tests whether the {@code long} cache is cleared properly.
      */
@@ -122,6 +129,8 @@ final class BitBufferTests {
     void testDoubleFlip() {
         buffer.putInt(42).putInt(26).flip();
         Assertions.assertEquals(42, buffer.getInt());
+        buffer.flip();
+        buffer.flip();
         buffer.flip();
         buffer.flip();
         Assertions.assertEquals(26, buffer.getInt());

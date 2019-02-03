@@ -285,7 +285,32 @@ public final class BitBuffer {
         var value = (short) s;
         return putBits(order == ByteOrder.BIG_ENDIAN ? Short.reverseBytes(value) : value, Short.SIZE);
     }
-
+    
+    /**
+     * Given the specified {@code maxValue}, this method writes the specified value to this {@link BitBuffer}
+     * using the optimal amount of bits, thus providing free compression.
+     *
+     * @param value    the value to write to this {@link BitBuffer}.
+     * @param maxValue the maximum possible value that {@code value} can be; a lower {@code maxValue} results in a
+     *                 better compression ratio.
+     * @return this {@link BitBuffer} to allow for the convenience of method-chaining.
+     * @throws IllegalArgumentException if {@code maxValue} is negative or if the absolute value of {@code value} is
+     * greater than {@code maxValue}.
+     */
+    public BitBuffer putValue(long value, long maxValue) throws IllegalArgumentException {
+        if (maxValue < 0) {
+            throw new IllegalArgumentException("maxValue must be positive!");
+        }
+        
+        if (Math.abs(value) > maxValue) {
+            throw new IllegalArgumentException("value must be less than or equal to maxValue!");
+        }
+        
+        int numBits = Long.SIZE - Long.numberOfLeadingZeros(maxValue) + 1;
+        
+        return putBits(value, numBits);
+    }
+    
     /**
      * After a series of relative {@code put} operations, flip the <i>cache</i> to prepare for a series of relative
      * {@code get} operations.
@@ -497,6 +522,28 @@ public final class BitBuffer {
     public short getShort(ByteOrder order) {
         var value = (short) getBits(Short.SIZE);
         return order == ByteOrder.BIG_ENDIAN ? Short.reverseBytes(value) : value;
+    }
+    
+    /**
+     * Given the specified {@code maxValue}, this method reads a value from this {@link BitBuffer} using the optimal
+     * amount of bits, thus providing free compression.
+     * <br><br>
+     * The value of {@code maxValue} should be the same as what was used when calling {@link #putValue(long, long)}.
+     *
+     * @param maxValue the maximum possible value that the value being read can be; a lower {@code maxValue} results
+     *                 in a better compression ratio.
+     * @return the value read from this {@link BitBuffer} as a {@code long}.
+     * @throws IllegalArgumentException if {@code maxValue} is negative.
+     */
+    public long getValue(long maxValue) {
+        if (maxValue < 0) {
+            throw new IllegalArgumentException("maxValue must be positive!");
+        }
+        
+        int numBits = Long.SIZE - Long.numberOfLeadingZeros(maxValue) + 1;
+        int unused = Long.SIZE - numBits;
+        
+        return getBits(numBits) << unused >> unused;
     }
     
     /**
