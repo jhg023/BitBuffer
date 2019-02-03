@@ -6,8 +6,8 @@ import java.nio.ByteOrder;
 import java.util.function.IntFunction;
 
 /**
- * A data type similar to {@link ByteBuffer}, but can read/write bits as well as {@code byte}s to increase
- * throughput, and allow for optional compression.
+ * A data type similar to {@link ByteBuffer}, but can read/write bits as well as {@code byte}s to improve
+ * throughput and allow for optional compression.
  *
  * @author Jacob G.
  * @version February 24, 2018
@@ -31,17 +31,17 @@ public final class BitBuffer {
     /**
      * The backing {@link ByteBuffer}.
      */
-    public final ByteBuffer buffer;
+    private final ByteBuffer buffer;
 
     /**
      * The number of bits available within {@code cache}.
      */
-    public int remainingBits = Long.SIZE;
+    private int remainingBits = Long.SIZE;
 
     /**
      * The <i>cache</i> used when writing and reading bits.
      */
-    public long cache;
+    private long cache;
 
     /**
      * A private constructor.
@@ -98,9 +98,11 @@ public final class BitBuffer {
         // much as we can in the cache (the least significant bits), flush the cache to the backing ByteBuffer, and
         // place the rest in the cache.
         if (remainingBits < numBits) {
-            int difference = numBits - remainingBits;
-            buffer.putLong(cache | (value << difference));
-            cache = (value >> (Long.SIZE - difference)) & MASKS[remainingBits = Long.SIZE - difference];
+            int upperHalfBits = numBits - remainingBits;
+            cache |= (value & MASKS[remainingBits]) << Long.SIZE - remainingBits;
+            buffer.putLong(cache);
+            cache = value & (MASKS[upperHalfBits] << remainingBits);
+            remainingBits = Long.SIZE - upperHalfBits;
         } else {
             cache |= ((value & MASKS[numBits]) << (Long.SIZE - remainingBits));
             remainingBits -= numBits;
@@ -164,7 +166,7 @@ public final class BitBuffer {
      * @see #putChar(char, ByteOrder)
      */
     public BitBuffer putChar(char c) {
-        return putChar(c, ByteOrder.BIG_ENDIAN);
+        return putChar(c, ByteOrder.LITTLE_ENDIAN);
     }
     
     /**
@@ -174,7 +176,7 @@ public final class BitBuffer {
      * @return this {@link BitBuffer} to allow for the convenience of method-chaining.
      */
     public BitBuffer putChar(char c, ByteOrder order) {
-        return putBits(order == ByteOrder.LITTLE_ENDIAN ? Character.reverseBytes(c) : c, Character.SIZE);
+        return putBits(order == ByteOrder.BIG_ENDIAN ? Character.reverseBytes(c) : c, Character.SIZE);
     }
     
     /**
@@ -185,7 +187,7 @@ public final class BitBuffer {
      * @see #putDouble(double, ByteOrder)
      */
     public BitBuffer putDouble(double d) {
-        return putDouble(d, ByteOrder.BIG_ENDIAN);
+        return putDouble(d, ByteOrder.LITTLE_ENDIAN);
     }
     
     /**
@@ -207,7 +209,7 @@ public final class BitBuffer {
      * @see #putFloat(float, ByteOrder)
      */
     public BitBuffer putFloat(float f) {
-        return putFloat(f, ByteOrder.BIG_ENDIAN);
+        return putFloat(f, ByteOrder.LITTLE_ENDIAN);
     }
     
     /**
@@ -229,7 +231,7 @@ public final class BitBuffer {
      * @see #putInt(int, ByteOrder)
      */
     public BitBuffer putInt(int i) {
-        return putInt(i, ByteOrder.BIG_ENDIAN);
+        return putInt(i, ByteOrder.LITTLE_ENDIAN);
     }
     
     /**
@@ -239,7 +241,7 @@ public final class BitBuffer {
      * @return this {@link BitBuffer} to allow for the convenience of method-chaining.
      */
     public BitBuffer putInt(int i, ByteOrder order) {
-        return putBits(order == ByteOrder.LITTLE_ENDIAN ? Integer.reverseBytes(i) : i, Integer.SIZE);
+        return putBits(order == ByteOrder.BIG_ENDIAN ? Integer.reverseBytes(i) : i, Integer.SIZE);
     }
     
     /**
@@ -250,7 +252,7 @@ public final class BitBuffer {
      * @see #putLong(long, ByteOrder)
      */
     public BitBuffer putLong(long l) {
-        return putLong(l, ByteOrder.BIG_ENDIAN);
+        return putLong(l, ByteOrder.LITTLE_ENDIAN);
     }
     
     /**
@@ -260,7 +262,7 @@ public final class BitBuffer {
      * @return this {@link BitBuffer} to allow for the convenience of method-chaining.
      */
     public BitBuffer putLong(long l, ByteOrder order) {
-        return putBits(order == ByteOrder.LITTLE_ENDIAN ? Long.reverseBytes(l) : l, Long.SIZE);
+        return putBits(order == ByteOrder.BIG_ENDIAN ? Long.reverseBytes(l) : l, Long.SIZE);
     }
     
     /**
@@ -270,7 +272,7 @@ public final class BitBuffer {
      * @return this {@link BitBuffer} to allow for the convenience of method-chaining.
      */
     public BitBuffer putShort(int s) {
-        return putShort(s, ByteOrder.BIG_ENDIAN);
+        return putShort(s, ByteOrder.LITTLE_ENDIAN);
     }
     
     /**
@@ -281,7 +283,7 @@ public final class BitBuffer {
      */
     public BitBuffer putShort(int s, ByteOrder order) {
         var value = (short) s;
-        return putBits(order == ByteOrder.LITTLE_ENDIAN ? Short.reverseBytes(value) : value, Short.SIZE);
+        return putBits(order == ByteOrder.BIG_ENDIAN ? Short.reverseBytes(value) : value, Short.SIZE);
     }
 
     /**
@@ -291,8 +293,13 @@ public final class BitBuffer {
      * @return this {@link BitBuffer} to allow for the convenience of method-chaining.
      */
     public BitBuffer flip() {
-        // Put the cache into the buffer and set the position to zero.
-        buffer.putLong(cache).clear();
+        // Put the cache into the buffer if applicable.
+        if (remainingBits != Long.SIZE) {
+            buffer.putLong(cache);
+        }
+        
+        // Reset the buffer's position and limit.
+        buffer.clear();
         
         // Set remainingBits to 0 so that, on the next call to getBits, the cache will be reset.
         remainingBits = 0;
@@ -368,7 +375,7 @@ public final class BitBuffer {
      * @see #getChar(ByteOrder)
      */
     public char getChar() {
-        return getChar(ByteOrder.BIG_ENDIAN);
+        return getChar(ByteOrder.LITTLE_ENDIAN);
     }
     
     /**
@@ -379,7 +386,7 @@ public final class BitBuffer {
      */
     public char getChar(ByteOrder order) {
         var value = (char) getBits(Integer.SIZE);
-        return order == ByteOrder.LITTLE_ENDIAN ? Character.reverseBytes(value) : value;
+        return order == ByteOrder.BIG_ENDIAN ? Character.reverseBytes(value) : value;
     }
     
     /**
@@ -390,7 +397,7 @@ public final class BitBuffer {
      * @see #getDouble(ByteOrder)
      */
     public double getDouble() {
-        return getDouble(ByteOrder.BIG_ENDIAN);
+        return getDouble(ByteOrder.LITTLE_ENDIAN);
     }
     
     /**
@@ -412,7 +419,7 @@ public final class BitBuffer {
      * @see #getFloat(ByteOrder)
      */
     public float getFloat() {
-        return getFloat(ByteOrder.BIG_ENDIAN);
+        return getFloat(ByteOrder.LITTLE_ENDIAN);
     }
     
     /**
@@ -434,7 +441,7 @@ public final class BitBuffer {
      * @see #getInt(ByteOrder)
      */
     public int getInt() {
-        return getInt(ByteOrder.BIG_ENDIAN);
+        return getInt(ByteOrder.LITTLE_ENDIAN);
     }
     
     /**
@@ -445,7 +452,7 @@ public final class BitBuffer {
      */
     public int getInt(ByteOrder order) {
         var value = (int) getBits(Integer.SIZE);
-        return order == ByteOrder.LITTLE_ENDIAN ? Integer.reverseBytes(value) : value;
+        return order == ByteOrder.BIG_ENDIAN ? Integer.reverseBytes(value) : value;
     }
     
     /**
@@ -456,7 +463,7 @@ public final class BitBuffer {
      * @see #getLong(ByteOrder)
      */
     public long getLong() {
-        return getLong(ByteOrder.BIG_ENDIAN);
+        return getLong(ByteOrder.LITTLE_ENDIAN);
     }
     
     /**
@@ -467,7 +474,7 @@ public final class BitBuffer {
      */
     public long getLong(ByteOrder order) {
         var value = getBits(Long.SIZE);
-        return order == ByteOrder.LITTLE_ENDIAN ? Long.reverseBytes(value) : value;
+        return order == ByteOrder.BIG_ENDIAN ? Long.reverseBytes(value) : value;
     }
     
     /**
@@ -478,7 +485,7 @@ public final class BitBuffer {
      * @see #getShort(ByteOrder)
      */
     public short getShort() {
-        return getShort(ByteOrder.BIG_ENDIAN);
+        return getShort(ByteOrder.LITTLE_ENDIAN);
     }
     
     /**
@@ -489,7 +496,7 @@ public final class BitBuffer {
      */
     public short getShort(ByteOrder order) {
         var value = (short) getBits(Short.SIZE);
-        return order == ByteOrder.LITTLE_ENDIAN ? Short.reverseBytes(value) : value;
+        return order == ByteOrder.BIG_ENDIAN ? Short.reverseBytes(value) : value;
     }
     
     /**

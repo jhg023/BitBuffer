@@ -45,8 +45,9 @@ final class BitBufferTests {
         byte[] id = {-46, 4, 0, 0, 0, 0, 0, 0};
         
         BitBuffer buffer = BitBuffer.allocate(24);
-        
         buffer.putBytes(length).putBytes(text).putBytes(id);
+        Assertions.assertArrayEquals(new byte[] {12, 0, 72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100,
+                33, -46, 4}, buffer.flip().getBytes(16));
     }
     
     @ParameterizedTest
